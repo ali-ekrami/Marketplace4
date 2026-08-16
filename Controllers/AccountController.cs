@@ -35,8 +35,7 @@ namespace tagr.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     FullName = model.FullName,
-                    // إذا سجل كبائع، تكون حالته بانتظار موافقة الأدمن (IsSellerApproved = false)
-                    IsSellerApproved = false
+                    IsSellerApproved = model.IsSeller
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -109,6 +108,12 @@ namespace tagr.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
