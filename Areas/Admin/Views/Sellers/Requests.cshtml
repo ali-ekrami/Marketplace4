@@ -1,0 +1,46 @@
+﻿@model IEnumerable<tagr.Models.ApplicationUser>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Requests to Join as Sellers";
+}
+
+<div class="container mt-4">
+    <h2>طلبات الانضمام المتاحة كبائع</h2>
+    <hr />
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">لا توجد طلبات انضمام جديدة حالياً.</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>الاسم الكامل</th>
+                    <th>البريد الإلكتروني</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var seller in Model)
+                {
+                    <tr>
+                        <td>@seller.FullName</td>
+                        <td>@seller.Email</td>
+                        <td>
+                            <form asp-area="Admin" asp-controller="Sellers" asp-action="Approve" asp-route-id="@seller.Id" method="post" asp-antiforgery="true" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                            </form>
+                            <form asp-area="Admin" asp-controller="Sellers" asp-action="Reject" asp-route-id="@seller.Id" method="post" asp-antiforgery="true" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

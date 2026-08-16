@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using tagr.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <span class="nav-link text-dark">Hello @User.Identity?.Name!</span>
+        </li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-primary fw-bold" asp-area="Admin" asp-controller="Users" asp-action="Index">Manage Users</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link text-warning fw-bold" asp-area="Admin" asp-controller="Sellers" asp-action="Requests"> Seller Requests </a>
+            </li>
+        }
+        <li class="nav-item">
+            <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="nav-link btn btn-link text-danger border-0">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Create New Account</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+        </li>
+    }
+</ul>
