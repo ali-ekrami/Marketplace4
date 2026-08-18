@@ -1,53 +1,46 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using tagr.Data;
-using tagr.Models;
+using tagr.Exceptions;
+using tagr.Services;
+using tagr.Services.Interfaces;
 
-
-namespace tagr.Area.Admin.Controllers
+namespace tagr.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-
     public class UsersController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private ApplicationDbContext _context;
+        private readonly IUserService _userService;
 
-        public UsersController(UserManager<ApplicationUser> userManager)
+        public UsersController(IUserService userService)
         {
-            _userManager = userManager;
+            _userService = userService;
         }
 
-        // عرض قائمة جميع المستخدمين
+        // GET: Admin/Users
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userService.GetAllAsync();
             return View(users);
         }
 
-        // تفعيل أو تجميد حساب مستخدم (Activate / Suspend)
+        // POST: Admin/Users/ToggleStatus/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ToggleStatus(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            try
+            {
+                await _userService.ToggleStatusAsync(id);
+                TempData["SuccessMessage"] = "User status updated successfully.";
+            }
+            catch (NotFoundException)
             {
                 return NotFound();
             }
 
-            // 2. البحث عن المستخدم
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.IsSuspended = !user.IsSuspended; // تغيير الحالة
-            await _userManager.UpdateAsync(user);
-            return RedirectToAction("Index", "Users", new { area = "Admin" });
+            return RedirectToAction(nameof(Index));
         }
     }
 }
