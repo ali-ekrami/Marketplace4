@@ -1,4 +1,5 @@
-﻿@model tagr.Models.Product
+﻿@model tagr.ViewModels.ProductCreateViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
 
 @{
     ViewData["Title"] = "Add Product";
@@ -26,29 +27,16 @@
             <div class="card shadow-sm">
                 <div class="card-body p-4">
 
-                    <form asp-controller="Products"
-                          asp-action="Create"
-                          method="post">
+                    <form asp-controller="Products" asp-action="Create" method="post">
 
                         @Html.AntiForgeryToken()
 
-                        <div asp-validation-summary="All"
-                             class="alert alert-danger"
-                             role="alert">
-                        </div>
+                        <div asp-validation-summary="All" class="text-danger"> </div>
 
                         <div class="mb-3">
-                            <label asp-for="Name" class="form-label">
-                                Product Name
-                            </label>
-
-                            <input asp-for="Name"
-                                   class="form-control"
-                                   placeholder="Enter product name" />
-
-                            <span asp-validation-for="Name"
-                                  class="text-danger">
-                            </span>
+                            <label asp-for="Name" class="form-label">Product Name</label>
+                            <input asp-for="Name"class="form-control"placeholder="Enter product name" />
+                            <span asp-validation-for="Name"class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
@@ -109,7 +97,7 @@
                             </label>
 
                             <select asp-for="CategoryId"
-                                    asp-items="ViewBag.Categories"
+                                    asp-items="@(new SelectList(Model.AvailableCategories, "Id", "Name"))"
                                     class="form-select">
 
                                 <option value="">

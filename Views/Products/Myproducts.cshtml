@@ -1,4 +1,4 @@
-﻿@model IEnumerable<tagr.Models.Product>
+﻿@model IEnumerable<tagr.ViewModels.ProductListItemViewModel>
 
 @{
     ViewData["Title"] = "My Products";
@@ -149,7 +149,7 @@
                                 </td>
 
                                 <td>
-                                    @(product.Category?.Name ?? "Uncategorized")
+                                    @product.CategoryName
                                 </td>
 
                                 <td>

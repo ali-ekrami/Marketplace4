@@ -9,35 +9,49 @@
 @{
 }
 
-<ul class="navbar-nav">
+<ul class="navbar-nav align-items-center">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <span class="nav-link text-dark">Hello @User.Identity?.Name!</span>
+            <span class="nav-link text-dark">
+                <i class="bi bi-person-circle"></i>
+                Hello @User.Identity?.Name!
+            </span>
         </li>
         @if (User.IsInRole("Admin"))
         {
             <li class="nav-item">
-                <a class="nav-link text-primary fw-bold" asp-area="Admin" asp-controller="Users" asp-action="Index">Manage Users</a>
+                <a class="nav-link text-primary fw-bold" asp-area="Admin" asp-controller="Users" asp-action="Index">
+                    Manage Users
+                </a>
             </li>
-            
+
             <li class="nav-item">
-                <a class="nav-link text-warning fw-bold" asp-area="Admin" asp-controller="Sellers" asp-action="Requests"> Seller Requests </a>
+                <a class="nav-link text-warning fw-bold" asp-area="Admin" asp-controller="Sellers" asp-action="Requests">
+                    Seller Requests
+                </a>
             </li>
         }
-        <li class="nav-item">
-            <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="nav-link btn btn-link text-danger border-0">Logout</button>
+        <li class="nav-item ms-2">
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Logout
+                </button>
             </form>
         </li>
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Create New Account</a>
+        <li class="nav-item me-2">
+            <a class="btn btn-outline-primary btn-sm" asp-controller="Account" asp-action="Register">
+                Create New Account
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+            <a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Login">
+                Login
+            </a>
         </li>
     }
 </ul>

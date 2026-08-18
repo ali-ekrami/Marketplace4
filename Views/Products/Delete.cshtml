@@ -1,4 +1,4 @@
-﻿@model tagr.Models.Product
+﻿@model tagr.ViewModels.ProductDetailsViewModel
 
 @{
     ViewData["Title"] = "Delete Product";
@@ -30,7 +30,7 @@
 
                         <p class="mb-1">
                             Category:
-                            @Model.Category?.Name
+                            @Model.CategoryName
                         </p>
 
                         <p class="mb-1">

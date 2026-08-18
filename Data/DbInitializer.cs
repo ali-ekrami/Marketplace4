@@ -107,7 +107,9 @@ namespace tagr.Data
                 "Electronics",
                 "Fashion",
                 "Books",
-                "Home & Kitchen"
+                "Home & Kitchen",
+                "Sports & Outdoors",
+                "Toys & Games"
             };
 
             foreach (var categoryName in categoryNames)
@@ -152,6 +154,14 @@ namespace tagr.Data
                     await context.Categories
                         .FirstAsync(c => c.Name == "Home & Kitchen");
 
+                var sports =
+                    await context.Categories
+                        .FirstAsync(c => c.Name == "Sports & Outdoors");
+
+                var toys =
+                    await context.Categories
+                        .FirstAsync(c => c.Name == "Toys & Games");
+
                 var products = new List<Product>
                 {
                     new Product
@@ -162,7 +172,7 @@ namespace tagr.Data
                         Price = 999.99m,
                         StockQuantity = 10,
                         ImageUrl =
-                            "https://placehold.co/600x400?text=Laptop",
+                            "https://loremflickr.com/600/400/laptop",
                         CategoryId = electronics.Id,
                         SellerId = seller.Id
                     },
@@ -175,7 +185,7 @@ namespace tagr.Data
                         Price = 699.99m,
                         StockQuantity = 15,
                         ImageUrl =
-                            "https://placehold.co/600x400?text=Smartphone",
+                            "https://loremflickr.com/600/400/smartphone",
                         CategoryId = electronics.Id,
                         SellerId = seller.Id
                     },
@@ -188,7 +198,7 @@ namespace tagr.Data
                         Price = 24.99m,
                         StockQuantity = 30,
                         ImageUrl =
-                            "https://placehold.co/600x400?text=T-Shirt",
+                            "https://loremflickr.com/600/400/tshirt,fashion",
                         CategoryId = fashion.Id,
                         SellerId = seller.Id
                     },
@@ -201,7 +211,7 @@ namespace tagr.Data
                         Price = 39.99m,
                         StockQuantity = 20,
                         ImageUrl =
-                            "https://placehold.co/600x400?text=Book",
+                            "https://loremflickr.com/600/400/book,programming",
                         CategoryId = books.Id,
                         SellerId = seller.Id
                     },
@@ -214,8 +224,190 @@ namespace tagr.Data
                         Price = 89.99m,
                         StockQuantity = 8,
                         ImageUrl =
-                            "https://placehold.co/600x400?text=Coffee+Maker",
+                            "https://loremflickr.com/600/400/coffeemaker",
                         CategoryId = homeKitchen.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Wireless Headphones",
+                        Description =
+                            "Over-ear wireless headphones with noise cancellation.",
+                        Price = 129.99m,
+                        StockQuantity = 25,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/headphones",
+                        CategoryId = electronics.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Smart Watch",
+                        Description =
+                            "Fitness tracking smart watch with heart rate monitor.",
+                        Price = 199.99m,
+                        StockQuantity = 12,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/smartwatch",
+                        CategoryId = electronics.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Denim Jacket",
+                        Description =
+                            "Classic denim jacket suitable for all seasons.",
+                        Price = 59.99m,
+                        StockQuantity = 18,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/denimjacket",
+                        CategoryId = fashion.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Running Shoes",
+                        Description =
+                            "Lightweight running shoes with breathable mesh.",
+                        Price = 74.99m,
+                        StockQuantity = 22,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/runningshoes",
+                        CategoryId = fashion.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Novel Collection",
+                        Description =
+                            "A collection of bestselling fiction novels.",
+                        Price = 29.99m,
+                        StockQuantity = 25,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/novel,books",
+                        CategoryId = books.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Cookbook",
+                        Description =
+                            "A collection of easy and delicious recipes.",
+                        Price = 19.99m,
+                        StockQuantity = 16,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/cookbook",
+                        CategoryId = books.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Blender",
+                        Description =
+                            "High-speed blender for smoothies and shakes.",
+                        Price = 49.99m,
+                        StockQuantity = 14,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/blender",
+                        CategoryId = homeKitchen.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Cookware Set",
+                        Description =
+                            "Non-stick cookware set for everyday cooking.",
+                        Price = 119.99m,
+                        StockQuantity = 9,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/cookware",
+                        CategoryId = homeKitchen.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Yoga Mat",
+                        Description =
+                            "Non-slip yoga mat suitable for all workouts.",
+                        Price = 27.99m,
+                        StockQuantity = 40,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/yogamat",
+                        CategoryId = sports.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Dumbbell Set",
+                        Description =
+                            "Adjustable dumbbell set for home workouts.",
+                        Price = 89.99m,
+                        StockQuantity = 11,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/dumbbell",
+                        CategoryId = sports.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Camping Tent",
+                        Description =
+                            "Waterproof camping tent for 2-4 people.",
+                        Price = 149.99m,
+                        StockQuantity = 7,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/campingtent",
+                        CategoryId = sports.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Building Blocks Set",
+                        Description =
+                            "Creative building blocks set for kids.",
+                        Price = 34.99m,
+                        StockQuantity = 26,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/buildingblocks,toy",
+                        CategoryId = toys.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Remote Control Car",
+                        Description =
+                            "Fast remote control car with rechargeable battery.",
+                        Price = 44.99m,
+                        StockQuantity = 13,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/rccar,toy",
+                        CategoryId = toys.Id,
+                        SellerId = seller.Id
+                    },
+
+                    new Product
+                    {
+                        Name = "Board Game",
+                        Description =
+                            "Fun strategy board game for the whole family.",
+                        Price = 24.99m,
+                        StockQuantity = 20,
+                        ImageUrl =
+                            "https://loremflickr.com/600/400/boardgame",
+                        CategoryId = toys.Id,
                         SellerId = seller.Id
                     }
                 };

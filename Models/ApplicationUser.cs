@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace tagr.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        [Required(ErrorMessage = "Full name is required.")]
+        [StringLength(150, ErrorMessage = "Full name cannot exceed 150 characters.")]
         public string FullName { get; set; } = string.Empty;
 
         public bool IsSellerApproved { get; set; } = false;

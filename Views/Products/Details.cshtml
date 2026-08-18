@@ -1,4 +1,4 @@
-﻿@model tagr.Models.Product
+﻿@model tagr.ViewModels.ProductDetailsViewModel
 
 @{
     ViewData["Title"] = "Product Details";
@@ -7,8 +7,7 @@
 <div class="container py-5">
 
     <div class="mb-4">
-        <a asp-action="Index"
-           class="btn btn-outline-secondary">
+        <a asp-action="Index" class="btn btn-outline-secondary">
             &larr; Back to Products
         </a>
     </div>
@@ -17,8 +16,7 @@
 
         <!-- Product Image -->
         <div class="col-md-6">
-
-            <div class="card shadow-sm">
+            <div class="card shadow-sm border-0">
 
                 @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
                 {
@@ -31,27 +29,20 @@
                 {
                     <div class="bg-light d-flex align-items-center justify-content-center"
                          style="height: 450px;">
-
-                        <span class="text-muted fs-5">
-                            No Image Available
-                        </span>
-
+                        <span class="text-muted fs-5">No Image Available</span>
                     </div>
                 }
 
             </div>
-
         </div>
 
         <!-- Product Information -->
         <div class="col-md-6">
 
             <div class="mb-3">
-
                 <span class="badge bg-secondary">
-                    @(Model.Category?.Name ?? "Uncategorized")
+                    @Model.CategoryName
                 </span>
-
             </div>
 
             <h1 class="display-5 fw-bold mb-3">
@@ -59,61 +50,39 @@
             </h1>
 
             <div class="mb-4">
-
                 <span class="display-6 fw-bold text-primary">
                     @Model.Price.ToString("C")
                 </span>
-
             </div>
 
             <hr />
 
-            <h5 class="fw-bold mt-4">
-                Description
-            </h5>
-
+            <h5 class="fw-bold mt-4">Description</h5>
             <p class="text-muted">
                 @Model.Description
             </p>
 
             <div class="row mt-4">
-
                 <div class="col-sm-6 mb-3">
-
                     <div class="border rounded p-3">
-
-                        <small class="text-muted d-block">
-                            Seller
-                        </small>
-
+                        <small class="text-muted d-block">Seller</small>
                         <span class="fw-bold">
-                            @(Model.Seller?.FullName ?? "Unknown Seller")
+                            @Model.SellerName
                         </span>
-
                     </div>
-
                 </div>
-
             </div>
 
             @if (Model.StockQuantity > 0)
             {
-                <form asp-controller="Cart"
-                      method="post"
-                      class="mt-4">
+                <form asp-controller="Cart" asp-action="Add" method="post" class="mt-4">
 
                     @Html.AntiForgeryToken()
 
-                    <input type="hidden"
-                           name="productId"
-                           value="@Model.Id" />
+                    <input type="hidden" name="productId" value="@Model.Id" />
 
                     <div class="mb-3">
-                        <label for="quantity"
-                               class="form-label fw-bold">
-                            Quantity
-                        </label>
-
+                        <label for="quantity" class="form-label fw-bold">Quantity</label>
                         <input type="number"
                                id="quantity"
                                name="quantity"
@@ -124,8 +93,7 @@
                                style="max-width: 200px;" />
                     </div>
 
-                    <button type="submit"
-                            class="btn btn-primary btn-lg w-100">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
                         Add to Cart
                     </button>
 
@@ -133,9 +101,7 @@
             }
             else
             {
-                <button type="button"
-                        class="btn btn-secondary btn-lg w-100 mt-4"
-                        disabled>
+                <button type="button" class="btn btn-secondary btn-lg w-100 mt-4" disabled>
                     Out of Stock
                 </button>
             }

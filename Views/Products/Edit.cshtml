@@ -1,4 +1,5 @@
-﻿@model tagr.Models.Product
+﻿@model tagr.ViewModels.ProductEditViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
 
 @{
     ViewData["Title"] = "Edit Product";
@@ -22,9 +23,7 @@
                         @Html.AntiForgeryToken()
                         <input type="hidden" asp-for="Id" />
 
-                        <div asp-validation-summary="All"
-                             class="alert alert-danger mb-3">
-                        </div>
+                        <div asp-validation-summary="All" class="text-danger"> </div>
 
                         <div class="mb-3">
                             <label asp-for="Name"
@@ -104,8 +103,8 @@
                             </label>
 
                             <select asp-for="CategoryId"
-                                    class="form-select"
-                                    asp-items="ViewBag.Categories">
+                                    asp-items="@(new SelectList(Model.AvailableCategories, "Id", "Name"))"
+                                    class="form-select">
 
                                 <option value="">
                                     Select Category
