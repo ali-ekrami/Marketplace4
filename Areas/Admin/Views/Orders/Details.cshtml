@@ -1,0 +1,122 @@
+﻿@model tagr.ViewModels.OrderDetailsViewModel
+@using tagr.Models
+
+@{
+    ViewData["Title"] = $"Order #{Model.Id}";
+
+    var badgeClass = Model.Status switch
+    {
+        OrderStatus.Pending => "bg-warning-subtle text-warning-emphasis border-warning-subtle",
+        OrderStatus.Confirmed => "bg-info-subtle text-info-emphasis border-info-subtle",
+        OrderStatus.Shipped => "bg-primary-subtle text-primary-emphasis border-primary-subtle",
+        OrderStatus.Delivered => "bg-success-subtle text-success-emphasis border-success-subtle",
+        OrderStatus.Cancelled => "bg-danger-subtle text-danger-emphasis border-danger-subtle",
+        _ => "bg-secondary-subtle text-secondary-emphasis border-secondary-subtle"
+    };
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 fw-bold mb-1">Order #@Model.Id</h1>
+                    <p class="text-muted mb-0">
+                        Placed by <strong>@Model.CustomerName</strong> on @Model.OrderDate.ToString("dd MMM yyyy, hh:mm tt")
+                    </p>
+                </div>
+
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Back to Orders
+                </a>
+            </div>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <div class="text-muted small mb-1">Current Status</div>
+                            <span class="badge rounded-pill border fs-6 @badgeClass">
+                                @Model.Status
+                            </span>
+                        </div>
+                        <div class="text-end">
+                            <div class="text-muted small mb-1">Total Amount</div>
+                            <div class="fs-4 fw-bold">@Model.TotalAmount.ToString("C")</div>
+                        </div>
+                    </div>
+
+                    <form asp-action="UpdateStatus" method="post" class="d-flex align-items-end gap-2">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="Id" value="@Model.Id" />
+
+                        <div class="flex-grow-1">
+                            <label class="form-label small text-muted">Update Status</label>
+                            <select name="Status" class="form-select">
+                                @foreach (var status in Enum.GetValues<OrderStatus>())
+                                {
+                                    <option value="@status" selected="@(status == Model.Status)">
+                                        @status
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Update
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h6 class="mb-0 fw-semibold">Order Items</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Product</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-end">Unit Price</th>
+                                <th class="text-end pe-4">Line Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td class="ps-4">@item.ProductName</td>
+                                    <td class="text-center">@item.Quantity</td>
+                                    <td class="text-end">@item.UnitPrice.ToString("C")</td>
+                                    <td class="text-end pe-4 fw-semibold">@item.LineTotal.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-light">
+                                <td colspan="3" class="text-end fw-bold pe-3">Total</td>
+                                <td class="text-end pe-4 fw-bold">@Model.TotalAmount.ToString("C")</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

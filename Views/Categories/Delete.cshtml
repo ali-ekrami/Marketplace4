@@ -1,4 +1,4 @@
-﻿@model tagr.Models.Category
+﻿@model tagr.ViewModels.CategoryDeleteViewModel
 
 @{
     ViewData["Title"] = "Delete Category";
@@ -23,12 +23,11 @@
                         <strong>@Model.Name</strong>?
                     </p>
 
-                    @if (Model.Products.Any())
+                    @if (Model.ProductsCount > 0)
                     {
                         <div class="alert alert-warning">
                             This category contains
-                            <strong>@Model.Products.Count</strong>
-                            product(s).
+                            <strong>@Model.ProductsCount</strong>                            product(s).
                             It cannot be deleted until the products
                             are moved to another category.
                         </div>

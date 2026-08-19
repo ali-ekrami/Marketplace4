@@ -1,58 +1,96 @@
 ﻿@model tagr.ViewModels.Account.RegisterViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     ViewData["Title"] = "Create Account";
 }
 
-<div class="container mt-5 mb-5">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white text-center py-3">
-                    <i class="bi bi-person-plus" style="font-size: 2rem;"></i>
-                    <h4 class="mt-2 mb-0">Create New Account</h4>
+
+            <div class="card border-0 shadow-sm overflow-hidden">
+
+                <div class="text-center pt-5 pb-4 px-4"
+                     style="background: linear-gradient(135deg, #0d6efd 0%, #0a3d91 100%);">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-25 mb-3"
+                         style="width:64px;height:64px;">
+                        <i class="bi bi-person-plus text-white" style="font-size: 2rem;"></i>
+                    </div>
+                    <h4 class="text-white fw-bold mb-1">Create your account</h4>
+                    <p class="text-white-50 mb-0 small">Join the marketplace in a few seconds</p>
                 </div>
-                <div class="card-body p-4">
+
+                <div class="card-body p-4 p-md-5">
+
                     <form asp-action="Register" method="post">
-                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                        <div asp-validation-summary="All" class="text-danger mb-3 small"></div>
 
                         <div class="mb-3">
-                            <label asp-for="FullName" class="form-label"></label>
-                            <input asp-for="FullName" class="form-control" />
-                            <span asp-validation-for="FullName" class="text-danger"></span>
+                            <label asp-for="FullName" class="form-label small fw-semibold text-muted"></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-person text-muted"></i>
+                                </span>
+                                <input asp-for="FullName" class="form-control border-start-0" />
+                            </div>
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Email" class="form-label"></label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <label asp-for="Email" class="form-label small fw-semibold text-muted"></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-envelope text-muted"></i>
+                                </span>
+                                <input asp-for="Email" class="form-control border-start-0" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Password" class="form-label small fw-semibold text-muted"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-lock text-muted"></i>
+                                    </span>
+                                    <input asp-for="Password" class="form-control border-start-0" />
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label small fw-semibold text-muted"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-lock-fill text-muted"></i>
+                                    </span>
+                                    <input asp-for="ConfirmPassword" class="form-control border-start-0" />
+                                </div>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ConfirmPassword" class="form-label"></label>
-                            <input asp-for="ConfirmPassword" class="form-control" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-check mb-3">
+                        <div class="form-check p-3 mb-4 rounded-3 bg-light border">
                             <input asp-for="IsSeller" class="form-check-input" type="checkbox" id="isSellerCheck" />
-                            <label class="form-check-label" for="isSellerCheck">
-                                Register as Seller
+                            <label class="form-check-label small" for="isSellerCheck">
+                                <span class="fw-semibold d-block">Register as Seller</span>
+                                <span class="text-muted">You'll be able to list and sell products once approved by an admin.</span>
                             </label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 py-2">Register</button>
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                            Create Account
+                        </button>
                     </form>
+
+                    <p class="text-center text-muted small mt-4 mb-0">
+                        Already have an account?
+                        <a asp-action="Login" class="fw-semibold text-decoration-none">Sign in</a>
+                    </p>
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>

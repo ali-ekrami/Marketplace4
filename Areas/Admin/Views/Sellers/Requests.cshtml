@@ -1,46 +1,124 @@
 ﻿@model IEnumerable<tagr.Models.ApplicationUser>
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     ViewData["Title"] = "Requests to Join as Sellers";
+    var sellers = Model.ToList();
 }
 
-<div class="container mt-4">
-    <h2>طلبات الانضمام المتاحة كبائع</h2>
-    <hr />
+<div class="container py-4">
 
-    @if (!Model.Any())
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 fw-bold mb-1">Seller Requests</h1>
+            <p class="text-muted mb-0">
+                Review and approve requests from users who want to sell on the platform
+            </p>
+        </div>
+        @if (sellers.Any())
+        {
+            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle fs-6 px-3 py-2">
+                @sellers.Count Pending Request@(sellers.Count == 1 ? "" : "s")
+            </span>
+        }
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-info">لا توجد طلبات انضمام جديدة حالياً.</div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!sellers.Any())
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <div class="mb-3">
+                    <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success-subtle text-success-emphasis"
+                          style="width:64px;height:64px;">
+                        <i class="bi bi-check-lg fs-3"></i>
+                    </span>
+                </div>
+                <h5 class="mb-1">No pending requests</h5>
+                <p class="text-muted mb-0">All seller requests have been reviewed.</p>
+            </div>
+        </div>
     }
     else
     {
-        <table class="table table-bordered table-hover mt-3">
-            <thead class="table-dark">
-                <tr>
-                    <th>الاسم الكامل</th>
-                    <th>البريد الإلكتروني</th>
-                    <th>الإجراءات</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var seller in Model)
-                {
-                    <tr>
-                        <td>@seller.FullName</td>
-                        <td>@seller.Email</td>
-                        <td>
-                            <form asp-area="Admin" asp-controller="Sellers" asp-action="Approve" asp-route-id="@seller.Id" method="post" asp-antiforgery="true" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-success">Approve</button>
-                            </form>
-                            <form asp-area="Admin" asp-controller="Sellers" asp-action="Reject" asp-route-id="@seller.Id" method="post" asp-antiforgery="true" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-danger">Reject</button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="card border-0 shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">User</th>
+                            <th>Email</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var seller in sellers)
+                        {
+                            var initials = string.Concat(
+                                (seller.FullName ?? "?")
+                                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                                    .Take(2)
+                                    .Select(n => char.ToUpper(n[0])));
+
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="rounded-circle bg-warning-subtle text-warning-emphasis d-flex align-items-center justify-content-center fw-bold"
+                                             style="width:40px;height:40px;font-size:0.85rem;flex-shrink:0;">
+                                            @initials
+                                        </div>
+                                        <div class="fw-semibold">
+                                            @seller.FullName
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="text-muted">
+                                    @seller.Email
+                                </td>
+
+                                <td class="text-end pe-4">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <form asp-area="Admin"
+                                              asp-controller="Sellers"
+                                              asp-action="Approve"
+                                              asp-route-id="@seller.Id"
+                                              method="post"
+                                              asp-antiforgery="true"
+                                              class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bi bi-check-lg"></i>
+                                                Approve
+                                            </button>
+                                        </form>
+
+                                        <form asp-area="Admin"
+                                              asp-controller="Sellers"
+                                              asp-action="Reject"
+                                              asp-route-id="@seller.Id"
+                                              method="post"
+                                              asp-antiforgery="true"
+                                              class="d-inline">
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-danger"
+                                                    onclick="return confirm('Reject @seller.FullName\'s seller request?');">
+                                                <i class="bi bi-x-lg"></i>
+                                                Reject
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     }
+
 </div>

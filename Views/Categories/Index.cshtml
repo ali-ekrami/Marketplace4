@@ -1,4 +1,4 @@
-﻿@model IEnumerable<tagr.Models.Category>
+﻿@model List<tagr.ViewModels.CategoryListItemViewModel>
 
 @{
     ViewData["Title"] = "Categories";
@@ -61,7 +61,7 @@
                         </td>
 
                         <td>
-                            @category.Products.Count
+                            @category.ProductsCount
                         </td>
 
                         <td class="text-end">

@@ -11,8 +11,7 @@ namespace tagr.UnitOfWork
         public ICategoryRepository Categories { get; }
         public IProductRepository Products { get; }
         public IUserRepository Users { get; }
-        //public IOrderRepository Orders { get; }
-        //public IUserRepository Users { get; }
+        public IOrderRepository Orders { get; }
         //public ICartRepository Carts { get; }
         //public IReviewRepository Reviews { get; }
 
@@ -22,8 +21,7 @@ namespace tagr.UnitOfWork
             Categories = new CategoryRepository(_context);
             Products = new ProductRepository(_context);
             Users = new UserRepository(_context);
-            //Orders = new OrderRepository(_context);
-            //Users = new UserRepository(_context);
+            Orders = new OrderRepository(_context);
             //Carts = new CartRepository(_context);
             //Reviews = new ReviewRepository(_context);
         }

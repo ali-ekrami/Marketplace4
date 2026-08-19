@@ -16,14 +16,9 @@ namespace tagr.Controllers
             _signInManager = signInManager;
         }
 
-        // GET: /Account/Register
         [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+        public IActionResult Register() => View();
 
-        // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -42,7 +37,6 @@ namespace tagr.Controllers
 
                 if (result.Succeeded)
                 {
-                    // تحديد الدور (Role)
                     if (model.IsSeller)
                     {
                         await _userManager.AddToRoleAsync(user, "Seller");
@@ -65,14 +59,9 @@ namespace tagr.Controllers
             return View(model);
         }
 
-        // GET: /Account/Login
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
-        // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -81,10 +70,9 @@ namespace tagr.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
-                // التأكد من عدم تجميد الحساب (Suspended)
                 if (user != null && user.IsSuspended)
                 {
-                    ModelState.AddModelError(string.Empty, "تم تجميد هذا الحساب من قبل الإدارة.");
+                    ModelState.AddModelError(string.Empty, "This account has been suspended by the administration.");
                     return View(model);
                 }
 
@@ -95,13 +83,12 @@ namespace tagr.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError(string.Empty, "محاولة تسجيل دخول غير صحيحة.");
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
 
             return View(model);
         }
 
-        // POST: /Account/Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -111,9 +98,6 @@ namespace tagr.Controllers
         }
 
         [HttpGet]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+        public IActionResult AccessDenied() => View();
     }
 }
