@@ -21,6 +21,14 @@ namespace tagr.Models
 
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
+        [Required]
+        [StringLength(20, ErrorMessage = "Phone number cannot exceed 20 characters.")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(300, ErrorMessage = "Shipping address cannot exceed 300 characters.")]
+        public string ShippingAddress { get; set; } = string.Empty;
+
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 

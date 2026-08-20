@@ -1,44 +1,47 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using tagr.Data;
-using tagr.Models;
+using tagr.Exceptions;
+using tagr.Services;
+using tagr.Services.Interfaces;
 
-namespace tagr.Area.Admin.Controllers
+namespace tagr.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
     public class SellersController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
+        private readonly ISellerService _sellerService;
 
-        public SellersController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public SellersController(ISellerService sellerService)
         {
-            _userManager = userManager;
-            _context = context;
+            _sellerService = sellerService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Requests()
         {
-            var sellers = await _userManager.GetUsersInRoleAsync("Seller");
-            var pendingSellers = sellers.Where(s => !s.IsSellerApproved).ToList();
-            return View(pendingSellers);
+            var requests = await _sellerService.GetPendingRequestsAsync();
+            return View(requests);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(string id)
         {
-            if (string.IsNullOrEmpty(id)) return NotFound();
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            try
             {
-                user.IsSellerApproved = true;
-                await _userManager.UpdateAsync(user);
-                await _context.SaveChangesAsync();
+                await _sellerService.ApproveAsync(id);
+                TempData["SuccessMessage"] = "Seller request approved successfully.";
             }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (BusinessRuleException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+
             return RedirectToAction(nameof(Requests));
         }
 
@@ -46,17 +49,17 @@ namespace tagr.Area.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reject(string id)
         {
-            if (string.IsNullOrEmpty(id)) return NotFound();
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            try
             {
-                await _userManager.RemoveFromRoleAsync(user, "Seller");
-                await _userManager.AddToRoleAsync(user, "Customer");
-                await _context.SaveChangesAsync();
+                await _sellerService.RejectAsync(id);
+                TempData["SuccessMessage"] = "Seller request rejected.";
             }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+
             return RedirectToAction(nameof(Requests));
         }
     }
 }
-

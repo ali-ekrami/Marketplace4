@@ -1,0 +1,107 @@
+﻿@model tagr.ViewModels.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container py-4">
+
+    <h1 class="h3 fw-bold mb-4">Checkout</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row g-4">
+
+        <!-- Shipping / Contact form -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h6 class="fw-semibold mb-3">Contact &amp; Shipping Details</h6>
+
+                    <form asp-controller="Cart" asp-action="Checkout" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Full Name</label>
+                            <input type="text" class="form-control" value="@Model.FullName" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Email</label>
+                            <input type="text" class="form-control" value="@Model.Email" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label small fw-semibold text-muted"></label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="e.g. 01012345678" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label small fw-semibold text-muted"></label>
+                            <input asp-for="Address" class="form-control" placeholder="Street, building, apartment..." />
+                            <span asp-validation-for="Address" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="City" class="form-label small fw-semibold text-muted"></label>
+                            <input asp-for="City" class="form-control" placeholder="City" />
+                            <span asp-validation-for="City" class="text-danger small"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-bag-check"></i>
+                            Place Order
+                        </button>
+
+                        <a asp-controller="Cart" asp-action="Index" class="btn btn-link w-100 mt-2 text-decoration-none">
+                            Back to Cart
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order summary -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h6 class="fw-semibold mb-3">Order Summary</h6>
+
+                    <ul class="list-unstyled mb-3">
+                        @foreach (var item in Model.Items)
+                        {
+                            <li class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted">
+                                    @item.ProductName
+                                    <span class="small text-secondary">x@item.Quantity</span>
+                                </span>
+                                <span class="fw-semibold">@((item.UnitPrice * item.Quantity).ToString("C"))</span>
+                            </li>
+                        }
+                    </ul>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-between fw-bold fs-5">
+                        <span>Total</span>
+                        <span>@Model.Total.ToString("C")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

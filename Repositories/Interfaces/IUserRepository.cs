@@ -6,5 +6,6 @@ namespace tagr.Repositories.Interfaces
     {
         Task<List<ApplicationUser>> GetAllAsync();
         Task<ApplicationUser?> GetByIdAsync(string id);
+        Task<List<ApplicationUser>> GetPendingSellerRequestsAsync();
     }
 }

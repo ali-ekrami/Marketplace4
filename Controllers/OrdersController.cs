@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using tagr.Exceptions;
-using tagr.Data;
+using tagr.Models;
 using tagr.Services.Interfaces;
 using tagr.ViewModels;
 
@@ -12,8 +12,8 @@ namespace tagr.Controllers
     public class OrdersController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly UserManager<ApplicationDbContext> _userManager;
-        public OrdersController(IOrderService orderService, UserManager<ApplicationDbContext> userManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public OrdersController(IOrderService orderService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
             _userManager = userManager;

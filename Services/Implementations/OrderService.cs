@@ -37,7 +37,7 @@ namespace tagr.Services.Implementations
         }
         public async Task<int> CreateAsync(OrderCreateViewModel model, string customerId)
         {
-            if(!model.Items.Any()) 
+            if (!model.Items.Any())
                 throw new BusinessRuleException("Order must contain at least one item.");
 
             var order = new Order
@@ -45,16 +45,18 @@ namespace tagr.Services.Implementations
                 CustomerId = customerId,
                 OrderDate = DateTime.UtcNow,
                 Status = OrderStatus.Pending,
+                PhoneNumber = model.PhoneNumber,
+                ShippingAddress = model.ShippingAddress,
             };
 
             decimal totalAmount = 0;
 
-            foreach(var item in model.Items)
+            foreach (var item in model.Items)
             {
                 var product = await _unitOfWork.Products.GetByIdAsync(item.ProductId) ?? throw new NotFoundException(nameof(Product), item.ProductId);
                 if (product.StockQuantity < item.Quantity)
-                    throw new BusinessRuleException($"Insufficient stock for '{product.Name}'. Available: {product.StockQuantity}."); 
-                
+                    throw new BusinessRuleException($"Insufficient stock for '{product.Name}'. Available: {product.StockQuantity}.");
+
                 var orderItem = new OrderItem
                 {
                     ProductId = product.Id,
@@ -68,7 +70,7 @@ namespace tagr.Services.Implementations
                 order.OrderItems.Add(orderItem);
             }
 
-            order.TotalAmount = totalAmount;   
+            order.TotalAmount = totalAmount;
 
             await _unitOfWork.Orders.AddAsync(order);
             await _unitOfWork.SaveChangesAsync();
@@ -81,6 +83,6 @@ namespace tagr.Services.Implementations
 
             order.Status = model.Status;
             await _unitOfWork.SaveChangesAsync();
-        }   
+        }
     }
 }

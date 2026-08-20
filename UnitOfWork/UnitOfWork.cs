@@ -12,7 +12,7 @@ namespace tagr.UnitOfWork
         public IProductRepository Products { get; }
         public IUserRepository Users { get; }
         public IOrderRepository Orders { get; }
-        //public ICartRepository Carts { get; }
+        public ICartRepository Carts { get; }
         //public IReviewRepository Reviews { get; }
 
         public UnitOfWork(ApplicationDbContext context)
@@ -22,7 +22,7 @@ namespace tagr.UnitOfWork
             Products = new ProductRepository(_context);
             Users = new UserRepository(_context);
             Orders = new OrderRepository(_context);
-            //Carts = new CartRepository(_context);
+            Carts = new CartRepository(_context);
             //Reviews = new ReviewRepository(_context);
         }
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();

@@ -11,6 +11,8 @@ namespace tagr.Models
 
         public bool IsSellerApproved { get; set; } = false;
 
+        public bool IsSellerRequested { get; set; } = false;
+
         public bool IsSuspended { get; set; } = false;
 
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();

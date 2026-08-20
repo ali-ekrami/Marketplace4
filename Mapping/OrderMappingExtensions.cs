@@ -34,6 +34,8 @@ namespace tagr.Mapping
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
                 Status = order.Status,
+                PhoneNumber = order.PhoneNumber,
+                ShippingAddress = order.ShippingAddress,
                 Items = order.OrderItems.Select(i => i.ToDetailsViewModel()).ToList()
             };
     }

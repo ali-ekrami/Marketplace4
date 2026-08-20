@@ -8,6 +8,38 @@ namespace tagr.ViewModels
         [Required(ErrorMessage = "Please add at least one item to the order.")]
         [MinLength(1, ErrorMessage = "Please add at least one item to the order.")]
         public List<OrderItemCreateViewModel> Items { get; set; } = new();
+
+        [Required(ErrorMessage = "Phone number is required.")]
+        [StringLength(20, ErrorMessage = "Phone number cannot exceed 20 characters.")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Shipping address is required.")]
+        [StringLength(300, ErrorMessage = "Shipping address cannot exceed 300 characters.")]
+        public string ShippingAddress { get; set; } = string.Empty;
+    }
+
+    public class CheckoutViewModel
+    {
+        public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Phone number is required.")]
+        [Phone(ErrorMessage = "Please enter a valid phone number.")]
+        [StringLength(20, ErrorMessage = "Phone number cannot exceed 20 characters.")]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Address is required.")]
+        [StringLength(250, ErrorMessage = "Address cannot exceed 250 characters.")]
+        public string Address { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "City is required.")]
+        [StringLength(100, ErrorMessage = "City cannot exceed 100 characters.")]
+        public string City { get; set; } = string.Empty;
+
+        // For redisplaying the order summary; not posted back by the form.
+        public List<CartItemViewModel> Items { get; set; } = new();
+        public decimal Total { get; set; }
     }
 
     public class OrderItemCreateViewModel
@@ -35,6 +67,8 @@ namespace tagr.ViewModels
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
         public OrderStatus Status { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
+        public string ShippingAddress { get; set; } = string.Empty;
         public List<OrderItemDetailsViewModel> Items { get; set; } = new();
     }
 

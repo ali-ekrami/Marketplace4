@@ -30,30 +30,24 @@ namespace tagr.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     FullName = model.FullName,
-                    IsSellerApproved = model.IsSeller
+                    IsSellerApproved = false,
+                    IsSellerRequested = model.IsSeller
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    if (model.IsSeller)
-                    {
-                        await _userManager.AddToRoleAsync(user, "Seller");
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, "Customer");
-                    }
+                    // Every new user starts as a Customer. The Seller role is granted only
+                    // after an admin approves the request (see SellersController.Approve).
+                    await _userManager.AddToRoleAsync(user, "Customer");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
 
                 foreach (var error in result.Errors)
-                {
                     ModelState.AddModelError(string.Empty, error.Description);
-                }
             }
 
             return View(model);
