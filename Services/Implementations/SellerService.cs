@@ -51,5 +51,19 @@ namespace tagr.Services.Implementations
 
             await _userManager.UpdateAsync(user);
         }
+        public async Task RequestAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId)
+                ?? throw new NotFoundException(nameof(ApplicationUser), userId);
+
+            if (user.IsSellerApproved)
+                throw new BusinessRuleException("You are already an approved seller.");
+
+            if (user.IsSellerRequested)
+                throw new BusinessRuleException("You already have a pending seller request.");
+
+            user.IsSellerRequested = true;
+            await _userManager.UpdateAsync(user);
+        }
     }
 }

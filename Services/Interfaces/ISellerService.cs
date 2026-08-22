@@ -7,5 +7,6 @@ namespace tagr.Services.Interfaces
         Task<List<ApplicationUser>> GetPendingRequestsAsync();
         Task ApproveAsync(string userId);
         Task RejectAsync(string userId);
+        Task RequestAsync(string userId);
     }
 }

@@ -1,0 +1,36 @@
+﻿@model tagr.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Become a Seller";
+}
+
+<div class="container py-5" style="max-width: 500px;">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body text-center py-5">
+            @if (Model.IsSellerApproved)
+            {
+                <h5>You are already an approved seller</h5>
+            }
+            else if (Model.IsSellerRequested)
+            {
+                <h5>Your request is under review</h5>
+                <p class="text-muted">We will review it and get back to you soon.</p>
+            }
+            else
+            {
+                <h5 class="mb-3">Want to sell on the platform?</h5>
+                <form asp-action="SubmitRequest" method="post">
+                    <button type="submit" class="btn btn-primary">Request to become a Seller</button>
+                </form>
+            }
+        </div>
+    </div>
+</div>
