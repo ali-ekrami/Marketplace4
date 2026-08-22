@@ -40,12 +40,23 @@ namespace tagr.Services.Implementations
             return products.ToListItemViewModels();
         }
 
-        public async Task<ProductDetailsViewModel> GetDetailsAsync(int id)
+        public async Task<ProductDetailsViewModel> GetDetailsAsync(int id, string? customerId = null)
         {
             var product = await _unitOfWork.Products.GetByIdWithDetailsAsync(id)
                 ?? throw new NotFoundException(nameof(Product), id);
 
-            return product.ToDetailsViewModel();
+            var model = product.ToDetailsViewModel();
+
+            // Wishlist and review state only exist for a signed-in customer.
+            if (!string.IsNullOrEmpty(customerId))
+            {
+                model.IsInWishlist = await _unitOfWork.Wishlists.ExistsAsync(customerId, id);
+                model.HasReviewed = await _unitOfWork.Reviews.ExistsForCustomerAsync(customerId, id);
+                model.CanReview = !model.HasReviewed
+                    && await _unitOfWork.Orders.HasPurchasedProductAsync(customerId, id);
+            }
+
+            return model;
         }
 
         public async Task<List<CategoryOptionViewModel>> GetAvailableCategoriesAsync()

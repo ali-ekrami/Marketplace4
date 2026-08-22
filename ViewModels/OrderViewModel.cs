@@ -57,7 +57,9 @@ namespace tagr.ViewModels
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
         public OrderStatus Status { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
         public int ItemsCount { get; set; }
+        public bool CanCancel => Status.CanBeCancelled();
     }
 
     public class OrderDetailsViewModel
@@ -70,6 +72,7 @@ namespace tagr.ViewModels
         public string PhoneNumber { get; set; } = string.Empty;
         public string ShippingAddress { get; set; } = string.Empty;
         public List<OrderItemDetailsViewModel> Items { get; set; } = new();
+        public bool CanCancel => Status.CanBeCancelled();
     }
 
     public class OrderItemDetailsViewModel
@@ -86,5 +89,30 @@ namespace tagr.ViewModels
 
         [Required(ErrorMessage = "Please select a status.")]
         public OrderStatus Status { get; set; }
+    }
+
+    // An order as one seller sees it: only their own lines, never the whole basket.
+    public class SellerOrderListItemViewModel
+    {
+        public int Id { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
+        public OrderStatus Status { get; set; }
+        public int MyItemsCount { get; set; }
+        public decimal MyItemsTotal { get; set; }
+    }
+
+    public class SellerOrderDetailsViewModel
+    {
+        public int Id { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
+        public DateTime OrderDate { get; set; }
+        public OrderStatus Status { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
+        public string ShippingAddress { get; set; } = string.Empty;
+
+        // Only the lines belonging to the current seller.
+        public List<OrderItemDetailsViewModel> Items { get; set; } = new();
+        public decimal MyItemsTotal => Items.Sum(i => i.LineTotal);
     }
 }

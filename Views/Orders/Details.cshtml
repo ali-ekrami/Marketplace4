@@ -32,6 +32,22 @@
                 </a>
             </div>
 
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body p-4 d-flex justify-content-between align-items-center">
                     <div>
@@ -45,6 +61,21 @@
                         <div class="fs-4 fw-bold">@Model.TotalAmount.ToString("C")</div>
                     </div>
                 </div>
+
+                @if (Model.CanCancel)
+                {
+                    <div class="card-footer bg-white border-top py-3 text-end">
+                        <form asp-action="Cancel" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit"
+                                    class="btn btn-outline-danger"
+                                    onclick="return confirm('Cancel this order? The items will be returned to stock.');">
+                                Cancel Order
+                            </button>
+                        </form>
+                    </div>
+                }
             </div>
 
             <div class="card border-0 shadow-sm mb-4">

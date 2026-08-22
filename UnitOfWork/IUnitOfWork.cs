@@ -9,7 +9,8 @@ namespace tagr.UnitOfWork
         IUserRepository Users { get; }
         IOrderRepository Orders { get; }
         ICartRepository Carts { get; }
-        //IReviewRepository Reviews { get; }
+        IReviewRepository Reviews { get; }
+        IWishlistRepository Wishlists { get; }
         Task<int> SaveChangesAsync();
     }
 }

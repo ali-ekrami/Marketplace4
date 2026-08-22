@@ -50,7 +50,7 @@ namespace tagr.Controllers
 
             try
             {
-                var product = await _productService.GetDetailsAsync(id.Value);
+                var product = await _productService.GetDetailsAsync(id.Value, _userManager.GetUserId(User));
                 return View(product);
             }
             catch (NotFoundException)
@@ -60,7 +60,7 @@ namespace tagr.Controllers
         }
 
         // GET: Products/MyProducts (منتجات التاجر الحالي بس)
-        [Authorize]
+        [Authorize(Roles = "Seller,Admin")]
         [HttpGet]
         public async Task<IActionResult> MyProducts()
         {
@@ -70,7 +70,7 @@ namespace tagr.Controllers
         }
 
         // GET: Products/Create
-        [Authorize]
+        [Authorize(Roles = "Seller,Admin")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -79,7 +79,7 @@ namespace tagr.Controllers
         }
 
         // POST: Products/Create
-        [Authorize]
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductCreateViewModel model)
@@ -113,7 +113,7 @@ namespace tagr.Controllers
         }
 
         // GET: Products/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Seller,Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -140,7 +140,7 @@ namespace tagr.Controllers
         }
 
         // POST: Products/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ProductEditViewModel model)
@@ -183,7 +183,7 @@ namespace tagr.Controllers
         }
 
         // GET: Products/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Seller,Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -210,7 +210,7 @@ namespace tagr.Controllers
         }
 
         // POST: Products/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -235,7 +235,7 @@ namespace tagr.Controllers
         }
 
         // POST: Products/UpdateStock
-        [Authorize]
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStock(int id, int stockQuantity)

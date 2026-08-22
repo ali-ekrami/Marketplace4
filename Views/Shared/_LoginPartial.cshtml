@@ -18,6 +18,14 @@
                 Hello @User.Identity?.Name!
             </span>
         </li>
+        @if (!User.IsInRole("Seller") && !User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-success fw-bold" asp-area="" asp-controller="Seller" asp-action="Become">
+                    Become a Seller
+                </a>
+            </li>
+        }
         @if (User.IsInRole("Admin"))
         {
             <li class="nav-item">
@@ -29,6 +37,12 @@
             <li class="nav-item">
                 <a class="nav-link text-warning fw-bold" asp-area="Admin" asp-controller="Sellers" asp-action="Requests">
                     Seller Requests
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-primary fw-bold" asp-area="Admin" asp-controller="Orders" asp-action="Index">
+                    All Orders
                 </a>
             </li>
         }

@@ -1,4 +1,4 @@
-﻿@model tagr.ViewModels.OrderDetailsViewModel
+﻿@model tagr.ViewModels.SellerOrderDetailsViewModel
 @using tagr.Models
 
 @{
@@ -60,8 +60,8 @@
                             </span>
                         </div>
                         <div class="text-end">
-                            <div class="text-muted small mb-1">Total Amount</div>
-                            <div class="fs-4 fw-bold">@Model.TotalAmount.ToString("C")</div>
+                            <div class="text-muted small mb-1">Your Items Total</div>
+                            <div class="fs-4 fw-bold">@Model.MyItemsTotal.ToString("C")</div>
                         </div>
                     </div>
 
@@ -89,9 +89,22 @@
                 </div>
             </div>
 
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white py-3">
+                    <h6 class="mb-0 fw-semibold">Shipping Details</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-muted small">Phone Number</div>
+                    <div class="mb-3">@Model.PhoneNumber</div>
+
+                    <div class="text-muted small">Shipping Address</div>
+                    <div>@Model.ShippingAddress</div>
+                </div>
+            </div>
+
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white py-3">
-                    <h6 class="mb-0 fw-semibold">Order Items</h6>
+                    <h6 class="mb-0 fw-semibold">Your Items in This Order</h6>
                 </div>
                 <div class="table-responsive">
                     <table class="table align-middle mb-0">
@@ -116,8 +129,8 @@
                         </tbody>
                         <tfoot>
                             <tr class="table-light">
-                                <td colspan="3" class="text-end fw-bold pe-3">Total</td>
-                                <td class="text-end pe-4 fw-bold">@Model.TotalAmount.ToString("C")</td>
+                                <td colspan="3" class="text-end fw-bold pe-3">Your Total</td>
+                                <td class="text-end pe-4 fw-bold">@Model.MyItemsTotal.ToString("C")</td>
                             </tr>
                         </tfoot>
                     </table>

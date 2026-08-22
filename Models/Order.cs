@@ -5,6 +5,13 @@ namespace tagr.Models
 {
     public enum OrderStatus { Pending, Confirmed, Shipped, Delivered, Cancelled }
 
+    public static class OrderStatusExtensions
+    {
+        // A customer may still pull out while the order has not left the seller yet.
+        public static bool CanBeCancelled(this OrderStatus status)
+            => status == OrderStatus.Pending || status == OrderStatus.Confirmed;
+    }
+
     public class Order
     {
         public int Id { get; set; }

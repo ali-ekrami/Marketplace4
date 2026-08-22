@@ -33,7 +33,8 @@ namespace tagr.Mapping
                 CategoryName = product.Category?.Name ?? string.Empty,
                 SellerName = product.Seller?.FullName ?? string.Empty,
                 ReviewsCount = product.Reviews.Count,
-                AverageRating = product.Reviews.Any() ? product.Reviews.Average(r => r.Rating) : 0
+                AverageRating = product.Reviews.Any() ? product.Reviews.Average(r => r.Rating) : 0,
+                Reviews = product.Reviews.OrderByDescending(r => r.CreatedAt).ToListItemViewModels()
             };
 
         public static ProductEditViewModel ToEditViewModel(this Product product) =>

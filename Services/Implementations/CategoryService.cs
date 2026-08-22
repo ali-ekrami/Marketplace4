@@ -51,7 +51,7 @@ namespace tagr.Services.Implementations
         {
             model.Name = model.Name.Trim();
 
-            var exists = await _unitOfWork.Categories.ExistsByNameAsync(model.Name);
+            var exists = await _unitOfWork.Categories.ExistsByNameAsync(model.Name, id);
             if (exists) throw new DuplicateEntityException(nameof(model.Name), "A category with this name already exists.");
 
             var category = await _unitOfWork.Categories.GetByIdAsync(id) ?? throw new NotFoundException(nameof(Category), id);

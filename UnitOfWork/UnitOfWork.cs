@@ -13,7 +13,8 @@ namespace tagr.UnitOfWork
         public IUserRepository Users { get; }
         public IOrderRepository Orders { get; }
         public ICartRepository Carts { get; }
-        //public IReviewRepository Reviews { get; }
+        public IReviewRepository Reviews { get; }
+        public IWishlistRepository Wishlists { get; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -23,7 +24,8 @@ namespace tagr.UnitOfWork
             Users = new UserRepository(_context);
             Orders = new OrderRepository(_context);
             Carts = new CartRepository(_context);
-            //Reviews = new ReviewRepository(_context);
+            Reviews = new ReviewRepository(_context);
+            Wishlists = new WishlistRepository(_context);
         }
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
         public void Dispose() => _context.Dispose();

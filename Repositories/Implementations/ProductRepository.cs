@@ -63,6 +63,7 @@ namespace tagr.Repositories.Implementations
                 .Include(p => p.Category)
                 .Include(p => p.Seller)
                 .Include(p => p.Reviews)
+                .ThenInclude(r => r.Customer)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task<List<Product>> GetBySellerIdAsync(string sellerId)

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - tagr</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/tagr.styles.css" asp-append-version="true" />
 </head>
@@ -41,6 +42,19 @@
                         </li>
 
 
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area=""
+                                   asp-controller="Wishlist"
+                                   asp-action="Index">
+                                    My Wishlist
+                                </a>
+                            </li>
+                        }
+
+
                         <!-- Seller -->
                         @if (User.IsInRole("Seller"))
                         {
@@ -50,6 +64,15 @@
                                    asp-controller="Products"
                                    asp-action="MyProducts">
                                     My Products
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area=""
+                                   asp-controller="SellerOrders"
+                                   asp-action="Index">
+                                    Orders on My Products
                                 </a>
                             </li>
                         }

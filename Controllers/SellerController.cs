@@ -22,8 +22,18 @@ namespace tagr.Controllers
         [HttpGet]
         public async Task<IActionResult> Become()
         {
-            var user = await _userManager.GetUserAsync(User);
-            return View(user);
+            var userId = _userManager.GetUserId(User);
+            if (userId == null) return Challenge();
+
+            try
+            {
+                var status = await _sellerService.GetStatusAsync(userId);
+                return View(status);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]

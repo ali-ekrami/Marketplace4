@@ -42,6 +42,16 @@ namespace tagr.Data
                 .WithMany()
                 .HasForeignKey(c => c.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // One review per customer per product.
+            builder.Entity<Review>()
+                .HasIndex(r => new { r.CustomerId, r.ProductId })
+                .IsUnique();
+
+            // A product can only sit in a customer's wishlist once.
+            builder.Entity<Wishlist>()
+                .HasIndex(w => new { w.CustomerId, w.ProductId })
+                .IsUnique();
         }
     }
 }

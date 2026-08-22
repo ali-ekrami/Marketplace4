@@ -77,6 +77,30 @@ namespace tagr.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var ownershipResult = await CheckOwnershipAsync(id);
+            if (ownershipResult != null) return ownershipResult;
+
+            try
+            {
+                await _orderService.CancelAsync(id);
+                TempData["SuccessMessage"] = "Order cancelled successfully.";
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (BusinessRuleException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
         private async Task<IActionResult?> CheckOwnershipAsync(int orderId)
         {
             string ownerId;

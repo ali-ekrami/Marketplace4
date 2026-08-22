@@ -41,5 +41,24 @@ namespace tagr.Mapping
 
         public static List<UserAdminListItemViewModel> ToAdminListItemViewModels(this IEnumerable<ApplicationUser> users) =>
             users.Select(u => u.ToAdminListItemViewModel()).ToList();
+
+        public static SellerRequestListItemViewModel ToSellerRequestViewModel(this ApplicationUser user) =>
+            new()
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email ?? string.Empty
+            };
+
+        public static List<SellerRequestListItemViewModel> ToSellerRequestViewModels(this IEnumerable<ApplicationUser> users) =>
+            users.Select(u => u.ToSellerRequestViewModel()).ToList();
+
+        public static SellerStatusViewModel ToSellerStatusViewModel(this ApplicationUser user) =>
+            new()
+            {
+                FullName = user.FullName,
+                IsSellerApproved = user.IsSellerApproved,
+                IsSellerRequested = user.IsSellerRequested
+            };
     }
 }

@@ -79,9 +79,80 @@ namespace tagr.Services.Implementations
         }
         public async Task UpdateStatusAsync(OrderStatusUpdateViewModel model)
         {
-            var order = await _unitOfWork.Orders.GetByIdAsync(model.Id) ?? throw new NotFoundException(nameof(Order), model.Id);
+            var order = await _unitOfWork.Orders.GetByIdWithItemsAsync(model.Id)
+                ?? throw new NotFoundException(nameof(Order), model.Id);
 
-            order.Status = model.Status;
+            await ApplyStatusAsync(order, model.Status);
+        }
+
+        public async Task CancelAsync(int id)
+        {
+            var order = await _unitOfWork.Orders.GetByIdWithItemsAsync(id)
+                ?? throw new NotFoundException(nameof(Order), id);
+
+            if (!order.Status.CanBeCancelled())
+                throw new BusinessRuleException($"An order that is already {order.Status} cannot be cancelled.");
+
+            await ApplyStatusAsync(order, OrderStatus.Cancelled);
+        }
+
+        // ===== Seller-scoped =====
+
+        public async Task<List<SellerOrderListItemViewModel>> GetBySellerIdAsync(string sellerId)
+        {
+            var orders = await _unitOfWork.Orders.GetBySellerIdAsync(sellerId);
+            return orders.ToSellerListItemViewModels(sellerId);
+        }
+
+        public async Task<SellerOrderDetailsViewModel> GetDetailsForSellerAsync(int id, string sellerId)
+        {
+            var order = await _unitOfWork.Orders.GetByIdWithDetailsAsync(id)
+                ?? throw new NotFoundException(nameof(Order), id);
+
+            if (!order.OrderItems.Any(i => i.Product != null && i.Product.SellerId == sellerId))
+                throw new BusinessRuleException("This order does not contain any of your products.");
+
+            return order.ToSellerDetailsViewModel(sellerId);
+        }
+
+        public async Task UpdateStatusBySellerAsync(OrderStatusUpdateViewModel model, string sellerId)
+        {
+            var order = await _unitOfWork.Orders.GetByIdWithItemsAsync(model.Id)
+                ?? throw new NotFoundException(nameof(Order), model.Id);
+
+            if (!await _unitOfWork.Orders.ContainsSellerProductsAsync(model.Id, sellerId))
+                throw new BusinessRuleException("This order does not contain any of your products.");
+
+            await ApplyStatusAsync(order, model.Status);
+        }
+
+        // The single place a status change is committed, so the stock a cancellation
+        // releases is always given back exactly once, whoever triggered it.
+        private async Task ApplyStatusAsync(Order order, OrderStatus newStatus)
+        {
+            if (order.Status == newStatus)
+            {
+                return;
+            }
+
+            if (order.Status == OrderStatus.Cancelled)
+            {
+                throw new BusinessRuleException("A cancelled order cannot be moved to another status.");
+            }
+
+            if (newStatus == OrderStatus.Cancelled)
+            {
+                // Give the stock back; CreateAsync took it out when the order was placed.
+                foreach (var item in order.OrderItems)
+                {
+                    if (item.Product != null)
+                    {
+                        item.Product.StockQuantity += item.Quantity;
+                    }
+                }
+            }
+
+            order.Status = newStatus;
             await _unitOfWork.SaveChangesAsync();
         }
     }

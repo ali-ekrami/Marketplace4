@@ -9,7 +9,7 @@ namespace tagr.Services.Interfaces
         Task<List<ProductListItemViewModel>> GetBySellerIdAsync(string sellerId);
         Task<List<ProductListItemViewModel>> GetByCategoryIdAsync(int categoryId);
 
-        Task<ProductDetailsViewModel> GetDetailsAsync(int id);
+        Task<ProductDetailsViewModel> GetDetailsAsync(int id, string? customerId = null);
 
         Task<ProductCreateViewModel> GetCreateFormAsync();
         Task<ProductEditViewModel> GetForEditAsync(int id);

@@ -80,5 +80,12 @@ namespace tagr.ViewModels
         public string SellerName { get; set; } = string.Empty;
         public double AverageRating { get; set; }
         public int ReviewsCount { get; set; }
+
+        public List<ReviewListItemViewModel> Reviews { get; set; } = new();
+
+        // Filled in only when the page is requested by a signed-in customer.
+        public bool IsInWishlist { get; set; }
+        public bool HasReviewed { get; set; }
+        public bool CanReview { get; set; }
     }
 }

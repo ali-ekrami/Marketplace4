@@ -31,4 +31,20 @@ namespace tagr.ViewModels
         public bool IsSellerApproved { get; set; }
         public bool IsSuspended { get; set; }
     }
+
+    // One pending seller request, as shown on the admin review screen.
+    public class SellerRequestListItemViewModel
+    {
+        public string Id { get; set; } = string.Empty;
+        public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
+
+    // The current user's own seller state, shown on Seller/Become.
+    public class SellerStatusViewModel
+    {
+        public string FullName { get; set; } = string.Empty;
+        public bool IsSellerApproved { get; set; }
+        public bool IsSellerRequested { get; set; }
+    }
 }

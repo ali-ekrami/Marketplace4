@@ -81,9 +81,24 @@
                                     </span>
                                 </td>
                                 <td class="text-end pe-4">
-                                    <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-outline-secondary">
-                                        View Details
-                                    </a>
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-outline-secondary">
+                                            View Details
+                                        </a>
+
+                                        @if (order.CanCancel)
+                                        {
+                                            <form asp-action="Cancel" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@order.Id" />
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Cancel order #@order.Id?');">
+                                                    Cancel
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
                                 </td>
                             </tr>
                         }
