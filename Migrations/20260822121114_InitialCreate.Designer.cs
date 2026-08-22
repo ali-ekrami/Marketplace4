@@ -12,8 +12,8 @@ using tagr.Data;
 namespace tagr.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260820214945_AddCartItem")]
-    partial class AddCartItem
+    [Migration("20260822121114_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
