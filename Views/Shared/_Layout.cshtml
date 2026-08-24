@@ -106,6 +106,24 @@
                             </li>
                         }
 
+                        <!-- My Orders -->
+                        @if (User.Identity != null &&
+                             User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+
+                                <a class="nav-link text-dark"
+                                   asp-area=""
+                                   asp-controller="Orders"
+                                   asp-action="Index">
+
+                                    My Orders
+
+                                </a>
+
+                            </li>
+                        }
+
 
                         <!-- Seller -->
                         @if (User.IsInRole("Seller"))
