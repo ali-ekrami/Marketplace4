@@ -4,98 +4,311 @@
     ViewData["Title"] = "Checkout";
 }
 
-<div class="container py-4">
+<div class="container py-5">
 
-    <h1 class="h3 fw-bold mb-4">Checkout</h1>
+    <!-- Header -->
+    <div class="mb-4">
+        <h1 class="h3 fw-bold mb-1">
+            <i class="bi bi-credit-card me-2"></i>
+            Checkout
+        </h1>
 
+        <p class="text-muted mb-0">
+            Complete your details and review your order.
+        </p>
+    </div>
+
+    <!-- Error -->
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm rounded-3 mb-4"
+             role="alert">
+
+            <i class="bi bi-exclamation-circle me-2"></i>
             @TempData["ErrorMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
         </div>
     }
 
     <div class="row g-4">
 
-        <!-- Shipping / Contact form -->
+        <!-- Checkout Form -->
         <div class="col-lg-7">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h6 class="fw-semibold mb-3">Contact &amp; Shipping Details</h6>
 
-                    <form asp-controller="Cart" asp-action="Checkout" method="post">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="d-flex align-items-center mb-4">
+
+                        <div class="bg-primary-subtle text-primary rounded-3
+                            d-flex align-items-center justify-content-center
+                            me-3"
+                             style="width:45px;height:45px;">
+
+                            <i class="bi bi-truck fs-5"></i>
+
+                        </div>
+
+                        <div>
+                            <h5 class="fw-bold mb-1">
+                                Shipping Details
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                Where should we deliver your order?
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <form asp-controller="Cart"
+                          asp-action="Checkout"
+                          method="post">
+
                         @Html.AntiForgeryToken()
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                        <div class="mb-3">
-                            <label class="form-label small fw-semibold text-muted">Full Name</label>
-                            <input type="text" class="form-control" value="@Model.FullName" readonly />
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger py-2 small">
                         </div>
 
+                        <!-- Full Name -->
                         <div class="mb-3">
-                            <label class="form-label small fw-semibold text-muted">Email</label>
-                            <input type="text" class="form-control" value="@Model.Email" readonly />
+
+                            <label class="form-label fw-semibold">
+                                Full Name
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-person text-muted"></i>
+                                </span>
+
+                                <input type="text"
+                                       class="form-control"
+                                       value="@Model.FullName"
+                                       readonly />
+
+                            </div>
+
                         </div>
 
+                        <!-- Email -->
                         <div class="mb-3">
-                            <label asp-for="PhoneNumber" class="form-label small fw-semibold text-muted"></label>
-                            <input asp-for="PhoneNumber" class="form-control" placeholder="e.g. 01012345678" />
-                            <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+
+                            <label class="form-label fw-semibold">
+                                Email
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-envelope text-muted"></i>
+                                </span>
+
+                                <input type="text"
+                                       class="form-control"
+                                       value="@Model.Email"
+                                       readonly />
+
+                            </div>
+
                         </div>
 
+                        <!-- Phone -->
                         <div class="mb-3">
-                            <label asp-for="Address" class="form-label small fw-semibold text-muted"></label>
-                            <input asp-for="Address" class="form-control" placeholder="Street, building, apartment..." />
-                            <span asp-validation-for="Address" class="text-danger small"></span>
+
+                            <label asp-for="PhoneNumber"
+                                   class="form-label fw-semibold">
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-telephone text-muted"></i>
+                                </span>
+
+                                <input asp-for="PhoneNumber"
+                                       class="form-control"
+                                       placeholder="01012345678" />
+
+                            </div>
+
+                            <span asp-validation-for="PhoneNumber"
+                                  class="text-danger small">
+                            </span>
+
                         </div>
 
+                        <!-- Address -->
+                        <div class="mb-3">
+
+                            <label asp-for="Address"
+                                   class="form-label fw-semibold">
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-geo-alt text-muted"></i>
+                                </span>
+
+                                <input asp-for="Address"
+                                       class="form-control"
+                                       placeholder="Street, building, apartment..." />
+
+                            </div>
+
+                            <span asp-validation-for="Address"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                        <!-- City -->
                         <div class="mb-4">
-                            <label asp-for="City" class="form-label small fw-semibold text-muted"></label>
-                            <input asp-for="City" class="form-control" placeholder="City" />
-                            <span asp-validation-for="City" class="text-danger small"></span>
+
+                            <label asp-for="City"
+                                   class="form-label fw-semibold">
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-buildings text-muted"></i>
+                                </span>
+
+                                <input asp-for="City"
+                                       class="form-control"
+                                       placeholder="City" />
+
+                            </div>
+
+                            <span asp-validation-for="City"
+                                  class="text-danger small">
+                            </span>
+
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-lg w-100">
-                            <i class="bi bi-bag-check"></i>
+                        <!-- Submit -->
+                        <button type="submit"
+                                class="btn btn-primary btn-lg w-100 fw-semibold">
+
+                            <i class="bi bi-bag-check me-2"></i>
                             Place Order
+
                         </button>
 
-                        <a asp-controller="Cart" asp-action="Index" class="btn btn-link w-100 mt-2 text-decoration-none">
+                        <a asp-controller="Cart"
+                           asp-action="Index"
+                           class="btn btn-light w-100 mt-2">
+
+                            <i class="bi bi-arrow-left me-2"></i>
                             Back to Cart
+
                         </a>
+
                     </form>
+
                 </div>
+
             </div>
+
         </div>
 
-        <!-- Order summary -->
+        <!-- Order Summary -->
         <div class="col-lg-5">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h6 class="fw-semibold mb-3">Order Summary</h6>
 
-                    <ul class="list-unstyled mb-3">
-                        @foreach (var item in Model.Items)
-                        {
-                            <li class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted">
-                                    @item.ProductName
-                                    <span class="small text-secondary">x@item.Quantity</span>
-                                </span>
-                                <span class="fw-semibold">@((item.UnitPrice * item.Quantity).ToString("C"))</span>
-                            </li>
-                        }
-                    </ul>
+            <div class="card border-0 shadow-sm rounded-4">
 
-                    <hr />
+                <div class="card-body p-4 p-md-5">
 
-                    <div class="d-flex justify-content-between fw-bold fs-5">
-                        <span>Total</span>
-                        <span>@Model.Total.ToString("C")</span>
+                    <div class="d-flex align-items-center mb-4">
+
+                        <div class="bg-success-subtle text-success rounded-3
+                            d-flex align-items-center justify-content-center
+                            me-3"
+                             style="width:45px;height:45px;">
+
+                            <i class="bi bi-receipt fs-5"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5 class="fw-bold mb-1">
+                                Order Summary
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                @Model.Items.Count item@(Model.Items.Count == 1 ? "" : "s")
+                            </p>
+
+                        </div>
+
                     </div>
+
+                    <!-- Items -->
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="d-flex justify-content-between
+                            align-items-start
+                            py-3
+                            border-bottom">
+
+                            <div class="pe-3">
+
+                                <div class="fw-semibold">
+                                    @item.ProductName
+                                </div>
+
+                                <div class="text-muted small mt-1">
+                                    @item.UnitPrice.ToString("C")
+                                    × @item.Quantity
+                                </div>
+
+                            </div>
+
+                            <span class="fw-semibold text-nowrap">
+                                @((item.UnitPrice * item.Quantity).ToString("C"))
+                            </span>
+
+                        </div>
+                    }
+
+                    <!-- Total -->
+                    <div class="d-flex justify-content-between
+                        align-items-center
+                        pt-4">
+
+                        <span class="fw-bold fs-5">
+                            Total
+                        </span>
+
+                        <span class="fw-bold fs-4 text-primary">
+                            @Model.Total.ToString("C")
+                        </span>
+
+                    </div>
+
+                    <div class="alert alert-light border mt-4 mb-0 small">
+
+                        <i class="bi bi-shield-check text-success me-2"></i>
+
+                        Your order information is securely processed.
+
+                    </div>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>

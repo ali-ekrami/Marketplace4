@@ -3,69 +3,178 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+<ul class="navbar-nav align-items-lg-center gap-lg-1">
 
-<ul class="navbar-nav align-items-center">
     @if (SignInManager.IsSignedIn(User))
     {
+        <!-- User -->
         <li class="nav-item">
             <span class="nav-link text-dark">
-                <i class="bi bi-person-circle"></i>
-                Hello @User.Identity?.Name!
+                <i class="bi bi-person-circle me-1"></i>
+                Hello, @User.Identity?.Name
             </span>
         </li>
+
+        <!-- Become Seller -->
         @if (!User.IsInRole("Seller") && !User.IsInRole("Admin"))
         {
             <li class="nav-item">
-                <a class="nav-link text-success fw-bold" asp-area="" asp-controller="Seller" asp-action="Become">
+                <a class="nav-link text-success fw-semibold"
+                   asp-area=""
+                   asp-controller="Seller"
+                   asp-action="Become">
+                    <i class="bi bi-shop me-1"></i>
                     Become a Seller
                 </a>
             </li>
         }
-        @if (User.IsInRole("Admin"))
+
+        <!-- Seller -->
+        @if (User.IsInRole("Seller"))
         {
-            <li class="nav-item">
-                <a class="nav-link text-primary fw-bold" asp-area="Admin" asp-controller="Users" asp-action="Index">
-                    Manage Users
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-semibold"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    <i class="bi bi-shop me-1"></i>
+                    Seller
                 </a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-warning fw-bold" asp-area="Admin" asp-controller="Sellers" asp-action="Requests">
-                    Seller Requests
-                </a>
-            </li>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
 
-            <li class="nav-item">
-                <a class="nav-link text-primary fw-bold" asp-area="Admin" asp-controller="Orders" asp-action="Index">
-                    All Orders
-                </a>
+                    <li>
+                        <a class="dropdown-item"
+                           asp-controller="Products"
+                           asp-action="MyProducts">
+                            <i class="bi bi-box-seam me-2"></i>
+                            My Products
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           asp-controller="SellerOrders"
+                           asp-action="Index">
+                            <i class="bi bi-receipt me-2"></i>
+                            Orders
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           asp-controller="Seller"
+                           asp-action="Become">
+                            <i class="bi bi-person-badge me-2"></i>
+                            Seller Status
+                        </a>
+                    </li>
+
+                </ul>
             </li>
         }
-        <li class="nav-item ms-2">
-            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="btn btn-outline-danger btn-sm">
-                    <i class="bi bi-box-arrow-right"></i>
+
+        <!-- Admin -->
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-semibold text-primary"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Admin
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+
+                    <li>
+                        <a class="dropdown-item"
+                           asp-area="Admin"
+                           asp-controller="Users"
+                           asp-action="Index">
+                            <i class="bi bi-people me-2"></i>
+                            Manage Users
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           asp-area="Admin"
+                           asp-controller="Sellers"
+                           asp-action="Requests">
+                            <i class="bi bi-person-check me-2"></i>
+                            Seller Requests
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           asp-area="Admin"
+                           asp-controller="Orders"
+                           asp-action="Index">
+                            <i class="bi bi-receipt me-2"></i>
+                            All Orders
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        }
+
+        <!-- Logout -->
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+
+            <form asp-area=""
+                  asp-controller="Account"
+                  asp-action="Logout"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit"
+                        class="btn btn-outline-danger btn-sm px-3">
+
+                    <i class="bi bi-box-arrow-right me-1"></i>
                     Logout
+
                 </button>
+
             </form>
+
         </li>
     }
     else
     {
-        <li class="nav-item me-2">
-            <a class="btn btn-outline-primary btn-sm" asp-controller="Account" asp-action="Register">
-                Create New Account
+        <!-- Register -->
+        <li class="nav-item me-lg-2 mb-2 mb-lg-0">
+
+            <a class="btn btn-outline-primary btn-sm px-3"
+               asp-controller="Account"
+               asp-action="Register">
+
+                <i class="bi bi-person-plus me-1"></i>
+                Create Account
+
             </a>
+
         </li>
+
+        <!-- Login -->
         <li class="nav-item">
-            <a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Login">
+
+            <a class="btn btn-primary btn-sm px-3"
+               asp-controller="Account"
+               asp-action="Login">
+
+                <i class="bi bi-box-arrow-in-right me-1"></i>
                 Login
+
             </a>
+
         </li>
     }
+
 </ul>

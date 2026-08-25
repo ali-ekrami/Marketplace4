@@ -1,36 +1,154 @@
 ﻿@model tagr.ViewModels.SellerStatusViewModel
+
 @{
     ViewData["Title"] = "Become a Seller";
 }
 
-<div class="container py-5" style="max-width: 500px;">
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-    }
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-    }
+<div class="container py-5">
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body text-center py-5">
-            @if (Model.IsSellerApproved)
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            @if (TempData["SuccessMessage"] != null)
             {
-                <h5>You are already an approved seller</h5>
+                <div class="alert alert-success alert-dismissible fade show shadow-sm"
+                     role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    @TempData["SuccessMessage"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+                </div>
             }
-            else if (Model.IsSellerRequested)
+
+            @if (TempData["ErrorMessage"] != null)
             {
-                <h5>Your request is under review</h5>
-                <p class="text-muted">We will review it and get back to you soon.</p>
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm"
+                     role="alert">
+                    <i class="bi bi-exclamation-circle me-2"></i>
+                    @TempData["ErrorMessage"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+                </div>
             }
-            else
-            {
-                <h5 class="mb-3">Want to sell on the platform?</h5>
-                <form asp-action="SubmitRequest" method="post">
-                    <button type="submit" class="btn btn-primary">Request to become a Seller</button>
-                </form>
-            }
+
+            <div class="card border-0 shadow-sm overflow-hidden">
+
+                <!-- Header -->
+                <div class="card-body text-center p-5">
+
+                    @if (Model.IsSellerApproved)
+                    {
+                        <div class="mb-4">
+                            <div class="d-inline-flex align-items-center justify-content-center
+                                rounded-circle bg-success-subtle text-success"
+                                 style="width:72px;height:72px;">
+                                <i class="bi bi-shop fs-2"></i>
+                            </div>
+                        </div>
+
+                        <h3 class="fw-bold mb-2">
+                            You're a Seller
+                        </h3>
+
+                        <p class="text-muted mb-4">
+                            Your seller account has been approved.
+                            You can now add and manage your products.
+                        </p>
+
+                        <a asp-controller="Products"
+                           asp-action="MyProducts"
+                           class="btn btn-success px-4">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Manage My Products
+                        </a>
+                    }
+                    else if (Model.IsSellerRequested)
+                    {
+                        <div class="mb-4">
+                            <div class="d-inline-flex align-items-center justify-content-center
+                                rounded-circle bg-warning-subtle text-warning"
+                                 style="width:72px;height:72px;">
+                                <i class="bi bi-clock-history fs-2"></i>
+                            </div>
+                        </div>
+
+                        <h3 class="fw-bold mb-2">
+                            Request Under Review
+                        </h3>
+
+                        <p class="text-muted mb-4">
+                            Your request to become a seller has been submitted
+                            and is waiting for administrator approval.
+                        </p>
+
+                        <span class="badge rounded-pill bg-warning-subtle
+                            text-warning-emphasis border border-warning-subtle px-3 py-2">
+                            <i class="bi bi-hourglass-split me-1"></i>
+                            Pending Approval
+                        </span>
+                    }
+                    else
+                    {
+                        <div class="mb-4">
+                            <div class="d-inline-flex align-items-center justify-content-center
+                                rounded-circle bg-primary-subtle text-primary"
+                                 style="width:72px;height:72px;">
+                                <i class="bi bi-shop-window fs-2"></i>
+                            </div>
+                        </div>
+
+                        <h3 class="fw-bold mb-2">
+                            Become a Seller
+                        </h3>
+
+                        <p class="text-muted mb-4">
+                            Start selling your products on our marketplace.
+                            Submit a request and wait for administrator approval.
+                        </p>
+
+                        <div class="bg-light rounded-3 p-3 mb-4 text-start">
+
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span>List and manage your products</span>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span>Manage your product stock</span>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span>View and manage your orders</span>
+                            </div>
+
+                        </div>
+
+                        <form asp-action="SubmitRequest"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="btn btn-primary w-100 py-2 fw-semibold">
+                                <i class="bi bi-person-plus me-2"></i>
+                                Request to Become a Seller
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+            </div>
+
         </div>
     </div>
+
 </div>

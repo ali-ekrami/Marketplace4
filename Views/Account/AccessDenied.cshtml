@@ -2,22 +2,42 @@
     ViewData["Title"] = "Access Denied";
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center">
-            <i class="bi bi-shield-lock text-danger" style="font-size: 4rem;"></i>
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-12 col-sm-10 col-md-7 col-lg-5">
 
-            <h1 class="text-danger mt-3">Access Denied</h1>
+            <div class="card border-0 shadow-sm text-center">
+                <div class="card-body p-5">
 
-            <p class="text-muted mt-3">
-                You do not have permission to access this page.
-            </p>
+                    <div class="mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center
+                                    bg-danger bg-opacity-10 rounded-circle"
+                             style="width: 90px; height: 90px;">
 
-            <a asp-controller="Home"
-               asp-action="Index"
-               class="btn btn-primary mt-3">
-                Back to Home
-            </a>
+                            <i class="bi bi-shield-lock text-danger"
+                               style="font-size: 3rem;"></i>
+
+                        </div>
+                    </div>
+
+                    <h1 class="h3 fw-bold mb-3">
+                        Access Denied
+                    </h1>
+
+                    <p class="text-secondary mb-4">
+                        You do not have permission to access this page.
+                    </p>
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="btn btn-primary px-4">
+                        <i class="bi bi-house-door me-2"></i>
+                        Back to Home
+                    </a>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

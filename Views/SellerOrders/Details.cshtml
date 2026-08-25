@@ -13,131 +13,386 @@
         OrderStatus.Cancelled => "bg-danger-subtle text-danger-emphasis border-danger-subtle",
         _ => "bg-secondary-subtle text-secondary-emphasis border-secondary-subtle"
     };
+
+    var statusIcon = Model.Status switch
+    {
+        OrderStatus.Pending => "bi-hourglass-split",
+        OrderStatus.Confirmed => "bi-check-circle",
+        OrderStatus.Shipped => "bi-truck",
+        OrderStatus.Delivered => "bi-box-seam",
+        OrderStatus.Cancelled => "bi-x-circle",
+        _ => "bi-question-circle"
+    };
 }
 
-<div class="container py-4">
+<div class="container py-5">
 
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="h3 fw-bold mb-1">Order #@Model.Id</h1>
-                    <p class="text-muted mb-0">
-                        Placed by <strong>@Model.CustomerName</strong> on @Model.OrderDate.ToString("dd MMM yyyy, hh:mm tt")
-                    </p>
-                </div>
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <h1 class="h3 fw-bold mb-0">
+                    Order #@Model.Id
+                </h1>
 
-                <a asp-action="Index" class="btn btn-outline-secondary">
-                    Back to Orders
-                </a>
+                <span class="badge rounded-pill border @badgeClass">
+                    <i class="bi @statusIcon me-1"></i>
+                    @Model.Status
+                </span>
             </div>
 
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @TempData["SuccessMessage"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            }
+            <p class="text-muted mb-0">
+                Placed by
+                <strong class="text-dark">@Model.CustomerName</strong>
+                on @Model.OrderDate.ToString("dd MMM yyyy, hh:mm tt")
+            </p>
+        </div>
 
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @TempData["ErrorMessage"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            }
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Orders
+        </a>
 
+    </div>
+
+    <!-- Messages -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm"
+             role="alert">
+
+            <i class="bi bi-check-circle me-2"></i>
+            @TempData["SuccessMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm"
+             role="alert">
+
+            <i class="bi bi-exclamation-circle me-2"></i>
+            @TempData["ErrorMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    <div class="row g-4">
+
+        <!-- Main Content -->
+        <div class="col-lg-8">
+
+            <!-- Status -->
             <div class="card border-0 shadow-sm mb-4">
+
                 <div class="card-body p-4">
 
                     <div class="d-flex justify-content-between align-items-center mb-4">
+
                         <div>
-                            <div class="text-muted small mb-1">Current Status</div>
-                            <span class="badge rounded-pill border fs-6 @badgeClass">
+                            <div class="text-muted small mb-1">
+                                Current Status
+                            </div>
+
+                            <span class="badge rounded-pill border fs-6 px-3 py-2 @badgeClass">
+                                <i class="bi @statusIcon me-1"></i>
                                 @Model.Status
                             </span>
                         </div>
+
                         <div class="text-end">
-                            <div class="text-muted small mb-1">Your Items Total</div>
-                            <div class="fs-4 fw-bold">@Model.MyItemsTotal.ToString("C")</div>
+                            <div class="text-muted small mb-1">
+                                Your Items Total
+                            </div>
+
+                            <div class="fs-4 fw-bold">
+                                @Model.MyItemsTotal.ToString("C")
+                            </div>
                         </div>
+
                     </div>
 
-                    <form asp-action="UpdateStatus" method="post" class="d-flex align-items-end gap-2">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="Id" value="@Model.Id" />
+                    <hr class="mb-4" />
 
-                        <div class="flex-grow-1">
-                            <label class="form-label small text-muted">Update Status</label>
-                            <select name="Status" class="form-select">
-                                @foreach (var status in Enum.GetValues<OrderStatus>())
-                                {
-                                    <option value="@status" selected="@(status == Model.Status)">
-                                        @status
-                                    </option>
-                                }
-                            </select>
+                    <h6 class="fw-bold mb-3">
+                        Update Order Status
+                    </h6>
+
+                    <form asp-action="UpdateStatus"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="Id"
+                               value="@Model.Id" />
+
+                        <div class="row g-2 align-items-end">
+
+                            <div class="col-md-9">
+
+                                <label class="form-label small text-muted">
+                                    Order Status
+                                </label>
+
+                                <select name="Status"
+                                        class="form-select">
+
+                                    @foreach (var status in Enum.GetValues<OrderStatus>())
+                                    {
+                                        <option value="@status"
+                                                selected="@(status == Model.Status)">
+                                            @status
+                                        </option>
+                                    }
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <button type="submit"
+                                        class="btn btn-primary w-100">
+                                    <i class="bi bi-arrow-repeat me-1"></i>
+                                    Update
+                                </button>
+
+                            </div>
+
                         </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            Update
-                        </button>
                     </form>
 
                 </div>
             </div>
 
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-white py-3">
-                    <h6 class="mb-0 fw-semibold">Shipping Details</h6>
-                </div>
-                <div class="card-body">
-                    <div class="text-muted small">Phone Number</div>
-                    <div class="mb-3">@Model.PhoneNumber</div>
 
-                    <div class="text-muted small">Shipping Address</div>
-                    <div>@Model.ShippingAddress</div>
+            <!-- Shipping -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-header bg-white border-0 py-3">
+                    <h6 class="mb-0 fw-bold">
+                        <i class="bi bi-geo-alt me-2"></i>
+                        Shipping Details
+                    </h6>
+                </div>
+
+                <div class="card-body pt-0">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <div class="text-muted small mb-1">
+                                Phone Number
+                            </div>
+
+                            <div class="fw-semibold">
+                                <i class="bi bi-telephone me-2 text-muted"></i>
+                                @Model.PhoneNumber
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="text-muted small mb-1">
+                                Shipping Address
+                            </div>
+
+                            <div class="fw-semibold">
+                                <i class="bi bi-house me-2 text-muted"></i>
+                                @Model.ShippingAddress
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
 
+
+            <!-- Items -->
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white py-3">
-                    <h6 class="mb-0 fw-semibold">Your Items in This Order</h6>
+
+                <div class="card-header bg-white border-0 py-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <h6 class="mb-0 fw-bold">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Your Items
+                        </h6>
+
+                        <span class="text-muted small">
+                            @Model.Items.Count item@(Model.Items.Count == 1 ? "" : "s")
+                        </span>
+
+                    </div>
+
                 </div>
+
                 <div class="table-responsive">
+
                     <table class="table align-middle mb-0">
+
                         <thead class="table-light">
+
                             <tr>
-                                <th class="ps-4">Product</th>
-                                <th class="text-center">Quantity</th>
-                                <th class="text-end">Unit Price</th>
-                                <th class="text-end pe-4">Line Total</th>
+                                <th class="ps-4">
+                                    Product
+                                </th>
+
+                                <th class="text-center">
+                                    Quantity
+                                </th>
+
+                                <th class="text-end">
+                                    Unit Price
+                                </th>
+
+                                <th class="text-end pe-4">
+                                    Total
+                                </th>
                             </tr>
+
                         </thead>
+
                         <tbody>
+
                             @foreach (var item in Model.Items)
                             {
                                 <tr>
-                                    <td class="ps-4">@item.ProductName</td>
-                                    <td class="text-center">@item.Quantity</td>
-                                    <td class="text-end">@item.UnitPrice.ToString("C")</td>
-                                    <td class="text-end pe-4 fw-semibold">@item.LineTotal.ToString("C")</td>
+
+                                    <td class="ps-4">
+
+                                        <div class="fw-semibold">
+                                            @item.ProductName
+                                        </div>
+
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span class="badge bg-light text-dark border">
+                                            @item.Quantity
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end">
+                                        @item.UnitPrice.ToString("C")
+                                    </td>
+
+                                    <td class="text-end pe-4 fw-semibold">
+                                        @item.LineTotal.ToString("C")
+                                    </td>
+
                                 </tr>
                             }
+
                         </tbody>
+
                         <tfoot>
+
                             <tr class="table-light">
-                                <td colspan="3" class="text-end fw-bold pe-3">Your Total</td>
-                                <td class="text-end pe-4 fw-bold">@Model.MyItemsTotal.ToString("C")</td>
+
+                                <td colspan="3"
+                                    class="text-end fw-bold py-3">
+                                    Your Total
+                                </td>
+
+                                <td class="text-end pe-4 fw-bold fs-5">
+                                    @Model.MyItemsTotal.ToString("C")
+                                </td>
+
                             </tr>
+
                         </tfoot>
+
                     </table>
+
                 </div>
+
             </div>
 
         </div>
+
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h6 class="fw-bold mb-4">
+                        Order Summary
+                    </h6>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">
+                            Customer
+                        </span>
+
+                        <span class="fw-semibold text-end">
+                            @Model.CustomerName
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">
+                            Order ID
+                        </span>
+
+                        <span class="fw-semibold">
+                            #@Model.Id
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">
+                            Order Date
+                        </span>
+
+                        <span class="fw-semibold text-end">
+                            @Model.OrderDate.ToString("dd MMM yyyy")
+                        </span>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <span class="fw-bold">
+                            Your Total
+                        </span>
+
+                        <span class="fs-4 fw-bold">
+                            @Model.MyItemsTotal.ToString("C")
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>

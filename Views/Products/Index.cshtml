@@ -8,13 +8,20 @@
     var currentSort = ViewData["CurrentSort"] as string;
 }
 
-<div class="container py-4">
+<div class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row
+        justify-content-between align-items-md-center
+        gap-3 mb-4">
+
         <div>
-            <h1 class="display-6 fw-bold">Products</h1>
+            <h1 class="h3 fw-bold mb-1">
+                Products
+            </h1>
+
             <p class="text-muted mb-0">
-                Browse our available products
+                Browse products from our marketplace.
             </p>
         </div>
 
@@ -22,91 +29,234 @@
         {
             <a asp-action="MyProducts"
                class="btn btn-outline-primary">
+
+                <i class="bi bi-box-seam me-2"></i>
                 My Products
+
             </a>
         }
+
     </div>
 
-    @* Success / Error Messages *@
+
+    <!-- Messages -->
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show rounded-3"
+             role="alert">
+
+            <i class="bi bi-check-circle me-2"></i>
             @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
         </div>
     }
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show rounded-3"
+             role="alert">
+
+            <i class="bi bi-exclamation-circle me-2"></i>
             @TempData["ErrorMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
         </div>
     }
 
-    @* Search / Filter / Sort *@
-    <div class="card shadow-sm border-0 mb-4">
+
+    <!-- Search / Filters -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5">
+
         <div class="card-body p-4">
 
-            <form asp-action="Index" method="get" class="row g-3">
+            <div class="d-flex align-items-center gap-2 mb-4">
 
-                <div class="col-md-5">
-                    <label class="form-label">Search</label>
-                    <input type="text"
-                           name="searchString"
-                           value="@currentFilter"
-                           class="form-control"
-                           placeholder="Search products..." />
+                <div class="d-flex align-items-center
+                    justify-content-center
+                    bg-primary-subtle text-primary
+                    rounded-3"
+                     style="width:42px;height:42px;">
+
+                    <i class="bi bi-funnel"></i>
+
                 </div>
 
-                <div class="col-md-3">
-                    <label class="form-label">Category</label>
-                    <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
-                        <option value="">All Categories</option>
+                <div>
+                    <h5 class="fw-bold mb-0">
+                        Find Products
+                    </h5>
+
+                    <small class="text-muted">
+                        Search, filter and sort products.
+                    </small>
+                </div>
+
+            </div>
+
+
+            <form asp-action="Index"
+                  method="get"
+                  class="row g-3">
+
+                <!-- Search -->
+                <div class="col-12 col-lg-5">
+
+                    <label class="form-label fw-semibold">
+                        Search
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text bg-light">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+
+                        <input type="text"
+                               name="searchString"
+                               value="@currentFilter"
+                               class="form-control"
+                               placeholder="Search products..." />
+
+                    </div>
+
+                </div>
+
+
+                <!-- Category -->
+                <div class="col-12 col-md-6 col-lg-3">
+
+                    <label class="form-label fw-semibold">
+                        Category
+                    </label>
+
+                    <select name="categoryId"
+                            class="form-select"
+                            asp-items="ViewBag.Categories">
+
+                        <option value="">
+                            All Categories
+                        </option>
+
                     </select>
+
                 </div>
 
-                <div class="col-md-3">
-                    <label class="form-label">Sort By</label>
-                    <select name="sortOrder" class="form-select">
-                        <option value="" selected="@(string.IsNullOrEmpty(currentSort))">
+
+                <!-- Sort -->
+                <div class="col-12 col-md-6 col-lg-3">
+
+                    <label class="form-label fw-semibold">
+                        Sort By
+                    </label>
+
+                    <select name="sortOrder"
+                            class="form-select">
+
+                        <option value=""
+                                selected="@(string.IsNullOrEmpty(currentSort))">
                             Name: A-Z
                         </option>
-                        <option value="name_desc" selected="@(currentSort == "name_desc")">
+
+                        <option value="name_desc"
+                                selected="@(currentSort == "name_desc")">
                             Name: Z-A
                         </option>
-                        <option value="price_asc" selected="@(currentSort == "price_asc")">
+
+                        <option value="price_asc"
+                                selected="@(currentSort == "price_asc")">
                             Price: Low to High
                         </option>
-                        <option value="price_desc" selected="@(currentSort == "price_desc")">
+
+                        <option value="price_desc"
+                                selected="@(currentSort == "price_desc")">
                             Price: High to Low
                         </option>
+
                     </select>
+
                 </div>
 
-                <div class="col-md-1 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">
-                        Search
+
+                <!-- Search Button -->
+                <div class="col-12 col-lg-1 d-flex align-items-end">
+
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+
+                        <i class="bi bi-search"></i>
+
+                        <span class="d-lg-none ms-2">
+                            Search
+                        </span>
+
                     </button>
+
                 </div>
 
             </form>
 
+
+            <!-- Clear -->
             <div class="mt-3">
-                <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+
+                <a asp-action="Index"
+                   class="btn btn-sm btn-light">
+
+                    <i class="bi bi-x-circle me-1"></i>
                     Clear Filters
+
                 </a>
+
             </div>
 
         </div>
+
     </div>
 
-    @* Products *@
+
+    <!-- Products -->
     @if (!Model.Any())
     {
-        <div class="alert alert-info text-center">
-            <h5 class="mb-2">No products found</h5>
-            <p class="mb-0">Try changing your search or filter.</p>
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body text-center py-5">
+
+                <div class="d-inline-flex align-items-center
+                    justify-content-center
+                    bg-light text-muted
+                    rounded-circle mb-3"
+                     style="width:70px;height:70px;">
+
+                    <i class="bi bi-box-seam fs-2"></i>
+
+                </div>
+
+                <h5 class="fw-bold mb-2">
+                    No products found
+                </h5>
+
+                <p class="text-muted mb-3">
+                    Try changing your search or filter.
+                </p>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-primary">
+
+                    Show All Products
+
+                </a>
+
+            </div>
+
         </div>
     }
     else
@@ -115,67 +265,132 @@
 
             @foreach (var product in Model)
             {
-                <div class="col-sm-6 col-lg-4 col-xl-3">
-                    <div class="card h-100 shadow-sm border-0">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
 
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+
+                        <!-- Product Image -->
                         @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
                         {
-                            <img src="@product.ImageUrl"
-                                 class="card-img-top"
-                                 alt="@product.Name"
-                                 style="height: 220px; object-fit: cover;" />
+                            <div class="position-relative">
+
+                                <img src="@product.ImageUrl"
+                                     class="card-img-top"
+                                     alt="@product.Name"
+                                     style="height:230px; object-fit:cover;" />
+
+                                @if (product.StockQuantity > 0)
+                                {
+                                    <span class="badge bg-success position-absolute top-0 end-0 m-3">
+                                        In Stock
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger position-absolute top-0 end-0 m-3">
+                                        Out of Stock
+                                    </span>
+                                }
+
+                            </div>
                         }
                         else
                         {
-                            <div class="bg-light d-flex align-items-center justify-content-center"
-                                 style="height: 220px;">
-                                <span class="text-muted">No Image</span>
+                            <div class="bg-light d-flex align-items-center
+                                justify-content-center position-relative"
+                                 style="height:230px;">
+
+                                <i class="bi bi-image text-muted fs-1"></i>
+
+                                @if (product.StockQuantity > 0)
+                                {
+                                    <span class="badge bg-success position-absolute top-0 end-0 m-3">
+                                        In Stock
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger position-absolute top-0 end-0 m-3">
+                                        Out of Stock
+                                    </span>
+                                }
+
                             </div>
                         }
 
-                        <div class="card-body d-flex flex-column">
 
-                            <h5 class="card-title">
+                        <!-- Product Info -->
+                        <div class="card-body d-flex flex-column p-4">
+
+                            <div class="mb-2">
+
+                                <span class="badge bg-light text-secondary">
+                                    <i class="bi bi-tag me-1"></i>
+                                    @product.CategoryName
+                                </span>
+
+                            </div>
+
+
+                            <h5 class="fw-bold mb-2">
                                 @product.Name
                             </h5>
 
-                            <p class="text-muted small mb-2">
-                                @product.CategoryName
-                            </p>
 
-                            <p class="card-text text-muted">
+                            <p class="text-muted small mb-4">
+
                                 @(product.Description?.Length > 100
                                     ? product.Description.Substring(0, 100) + "..."
                                     : product.Description)
+
                             </p>
+
 
                             <div class="mt-auto">
 
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="fw-bold fs-5">
-                                        @product.Price.ToString("C")
-                                    </span>
+                                <div class="d-flex justify-content-between
+                                    align-items-center mb-3">
 
-                                    @if (product.StockQuantity > 0)
-                                    {
-                                        <span class="badge bg-success">In Stock</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">Out of Stock</span>
-                                    }
+                                    <div>
+                                        <small class="text-muted d-block">
+                                            Price
+                                        </small>
+
+                                        <span class="fw-bold fs-5">
+                                            @product.Price.ToString("C")
+                                        </span>
+                                    </div>
+
+                                    <div class="text-end">
+
+                                        <small class="text-muted d-block">
+                                            Available
+                                        </small>
+
+                                        <span class="small fw-semibold">
+                                            @product.StockQuantity
+                                        </span>
+
+                                    </div>
+
                                 </div>
+
 
                                 <a asp-action="Details"
                                    asp-route-id="@product.Id"
-                                   class="btn btn-primary w-100">
+                                   class="btn btn-primary w-100 fw-semibold">
+
+                                    <i class="bi bi-eye me-2"></i>
                                     View Details
+
                                 </a>
 
                             </div>
 
                         </div>
+
                     </div>
+
                 </div>
             }
 

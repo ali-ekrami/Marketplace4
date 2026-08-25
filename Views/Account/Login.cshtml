@@ -1,69 +1,106 @@
 ﻿@model tagr.ViewModels.Account.LoginViewModel
+
 @{
     ViewData["Title"] = "Login";
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
+<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
+    <div class="col-12 col-sm-10 col-md-6 col-lg-4">
 
-            <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card border-0 shadow-sm rounded-4">
 
-                <div class="text-center pt-5 pb-4 px-4"
-                     style="background: linear-gradient(135deg, #198754 0%, #14532d 100%);">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-25 mb-3"
-                         style="width:64px;height:64px;">
-                        <i class="bi bi-person-circle text-white" style="font-size: 2rem;"></i>
+            <div class="card-body p-4 p-md-5">
+
+                <!-- Logo / Icon -->
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex align-items-center justify-content-center
+                        bg-success-subtle text-success rounded-circle mb-3"
+                         style="width: 64px; height: 64px;">
+
+                        <i class="bi bi-person fs-3"></i>
+
                     </div>
-                    <h4 class="text-white fw-bold mb-1">Welcome back</h4>
-                    <p class="text-white-50 mb-0 small">Sign in to continue to your account</p>
-                </div>
 
-                <div class="card-body p-4 p-md-5">
+                    <h3 class="fw-bold mb-1">Welcome Back</h3>
 
-                    <form asp-action="Login" method="post">
-                        <div asp-validation-summary="All" class="text-danger mb-3 small"></div>
-
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label small fw-semibold text-muted"></label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0">
-                                    <i class="bi bi-envelope text-muted"></i>
-                                </span>
-                                <input asp-for="Email" class="form-control border-start-0" />
-                            </div>
-                            <span asp-validation-for="Email" class="text-danger small"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label small fw-semibold text-muted"></label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0">
-                                    <i class="bi bi-lock text-muted"></i>
-                                </span>
-                                <input asp-for="Password" class="form-control border-start-0" />
-                            </div>
-                            <span asp-validation-for="Password" class="text-danger small"></span>
-                        </div>
-
-                        <div class="form-check mb-4">
-                            <input asp-for="RememberMe" class="form-check-input" />
-                            <label asp-for="RememberMe" class="form-check-label small text-muted"></label>
-                        </div>
-
-                        <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
-                            Sign In
-                        </button>
-                    </form>
-
-                    <p class="text-center text-muted small mt-4 mb-0">
-                        Don't have an account?
-                        <a asp-action="Register" class="fw-semibold text-decoration-none">Create one</a>
+                    <p class="text-muted mb-0">
+                        Login to your account
                     </p>
-
                 </div>
-            </div>
 
+                <form asp-action="Login" method="post">
+
+                    <div asp-validation-summary="All"
+                         class="text-danger small mb-3">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label asp-for="Email"
+                               class="form-label fw-semibold">
+                        </label>
+
+                        <input asp-for="Email"
+                               class="form-control form-control-lg"
+                               placeholder="Email address" />
+
+                        <span asp-validation-for="Email"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label asp-for="Password"
+                               class="form-label fw-semibold">
+                        </label>
+
+                        <input asp-for="Password"
+                               class="form-control form-control-lg"
+                               placeholder="Password" />
+
+                        <span asp-validation-for="Password"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <!-- Remember -->
+                    <div class="form-check mb-4">
+                        <input asp-for="RememberMe"
+                               class="form-check-input" />
+
+                        <label asp-for="RememberMe"
+                               class="form-check-label text-muted">
+                        </label>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit"
+                            class="btn btn-success btn-lg w-100 fw-semibold">
+                        Login
+                    </button>
+
+                </form>
+
+                <div class="text-center mt-4">
+                    <span class="text-muted">
+                        Don't have an account?
+                    </span>
+
+                    <a asp-action="Register"
+                       class="text-success fw-semibold text-decoration-none">
+                        Register
+                    </a>
+                </div>
+
+            </div>
         </div>
+
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

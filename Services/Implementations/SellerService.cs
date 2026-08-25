@@ -42,7 +42,19 @@ namespace tagr.Services.Implementations
             {
                 throw new BusinessRuleException("This user has not requested to become a seller.");
             }
+            var sellers = await _userManager.GetUsersInRoleAsync("Seller");
 
+            var nameExists = sellers.Any(s =>
+                s.Id != user.Id &&
+                s.FullName.Trim().Equals(
+                    user.FullName.Trim(),
+                    StringComparison.OrdinalIgnoreCase));
+
+            if (nameExists)
+            {
+                throw new BusinessRuleException(
+                    "A seller with this name already exists.");
+            }
             user.IsSellerApproved = true;
             user.IsSellerRequested = false;
 
