@@ -4,19 +4,18 @@
     ViewData["Title"] = "Create Account";
 }
 
-<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
-    <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+<div class="auth-page">
+    <div class="auth-card-wrapper">
 
-        <div class="card border-0 shadow-sm rounded-4">
+        <div class="card auth-card border-0 rounded-4">
 
             <div class="card-body p-4 p-md-5">
 
                 <!-- Header -->
                 <div class="text-center mb-4">
 
-                    <div class="d-inline-flex align-items-center justify-content-center
-                        bg-primary-subtle text-primary rounded-circle mb-3"
-                         style="width: 64px; height: 64px;">
+                    <div class="auth-icon d-inline-flex align-items-center 
+                                justify-content-center rounded-circle mb-3">
 
                         <i class="bi bi-person-plus fs-3"></i>
 
@@ -96,7 +95,7 @@
                             </label>
 
                             <input asp-for="ConfirmPassword"
-                                   class="form-control form-control-lg"
+                                   class="form-control form-control-lg confirm-password-input"
                                    placeholder="Confirm password" />
 
                             <span asp-validation-for="ConfirmPassword"
@@ -132,7 +131,7 @@
 
                     <!-- Submit -->
                     <button type="submit"
-                            class="btn btn-primary btn-lg w-100 fw-semibold">
+                            class="btn auth-btn btn-lg w-100 fw-semibold">
                         Create Account
                     </button>
 
@@ -146,7 +145,7 @@
                     </span>
 
                     <a asp-action="Login"
-                       class="text-primary fw-semibold text-decoration-none">
+                       class="auth-link fw-semibold text-decoration-none">
                         Sign in
                     </a>
 

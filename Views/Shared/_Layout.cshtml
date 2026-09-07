@@ -1,12 +1,18 @@
-﻿<!DOCTYPE html>
+﻿
+
+
+
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"] - tagr</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
 
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - TAGR</title>
 
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -21,48 +27,73 @@
     <link rel="stylesheet"
           href="~/tagr.styles.css"
           asp-append-version="true" />
+
 </head>
+
 
 <body>
 
+    <!-- ================= NAVBAR ================= -->
+
     <header>
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg tagr-navbar">
 
-            <div class="container-fluid">
+            <div class="container-fluid px-lg-5">
 
-                <!-- Brand -->
-                <a class="navbar-brand"
-                   asp-area=""
+                <!-- LOGO -->
+
+                <a class="navbar-brand tagr-brand"
                    asp-controller="Home"
                    asp-action="Index">
-                    tagr
+
+                    <i class="bi bi-bag-heart-fill"></i>
+                    TAGR
+
                 </a>
 
 
-                <!-- Mobile Toggle -->
+                <!-- MOBILE BUTTON -->
+
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        data-bs-target="#tagrNavbar">
 
                     <span class="navbar-toggler-icon"></span>
 
                 </button>
 
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="collapse navbar-collapse"
+                     id="tagrNavbar">
 
-                    <ul class="navbar-nav flex-grow-1">
 
-                        <!-- Products -->
+                    <!-- LEFT LINKS -->
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                        <!-- HOME -->
+
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark"
-                               asp-area=""
+                            <a class="nav-link tagr-nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- PRODUCTS -->
+
+                        <li class="nav-item">
+
+                            <a class="nav-link tagr-nav-link"
                                asp-controller="Products"
                                asp-action="Index">
 
@@ -73,50 +104,69 @@
                         </li>
 
 
-                        <!-- Cart -->
-                        <li class="nav-item">
-
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Cart"
-                               asp-action="Index">
-
-                                My Cart
-
-                            </a>
-
-                        </li>
-
-
-                        <!-- Wishlist -->
-                        @if (User.Identity != null &&
-                             User.Identity.IsAuthenticated)
+                        <!-- CATEGORIES -->
+                        @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="Wishlist"
+                                <a class="nav-link tagr-nav-link"
+                                   asp-controller="Categories"
                                    asp-action="Index">
 
-                                    My Wishlist
+                                    Categories
 
                                 </a>
 
                             </li>
                         }
 
-                        <!-- My Orders -->
-                        @if (User.Identity != null &&
-                             User.Identity.IsAuthenticated)
+
+                        <!-- CART -->
+                        @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
-                                   asp-area=""
+                                <a class="nav-link tagr-nav-link"
+                                   asp-controller="Cart"
+                                   asp-action="Index">
+
+                                    <i class="bi bi-cart3"></i>
+                                    My Cart
+
+                                </a>
+
+                            </li>
+                        }
+
+
+                        <!-- WISHLIST -->
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+
+                                <a class="nav-link tagr-nav-link"
+                                   asp-controller="Wishlist"
+                                   asp-action="Index">
+
+                                    <i class="bi bi-heart"></i>
+                                    Wishlist
+
+                                </a>
+
+                            </li>
+                        }
+
+
+                        <!-- ORDERS -->
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+
+                                <a class="nav-link tagr-nav-link"
                                    asp-controller="Orders"
                                    asp-action="Index">
 
+                                    <i class="bi bi-box-seam"></i>
                                     My Orders
 
                                 </a>
@@ -125,29 +175,25 @@
                         }
 
 
-                        <!-- Seller -->
+                        <!-- SELLER -->
                         @if (User.IsInRole("Seller"))
                         {
-                            <!-- Seller Dashboard -->
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
+                                <a class="nav-link tagr-nav-link"
                                    asp-controller="Dashboard"
                                    asp-action="seller">
 
-                                    <i class="bi bi-speedometer2 me-1"></i>
+                                    <i class="bi bi-speedometer2"></i>
                                     Dashboard
 
                                 </a>
 
                             </li>
 
-
-                            <!-- My Products -->
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
-                                   asp-area=""
+                                <a class="nav-link tagr-nav-link"
                                    asp-controller="Products"
                                    asp-action="MyProducts">
 
@@ -156,53 +202,20 @@
                                 </a>
 
                             </li>
-
-
-                            <!-- Seller Orders -->
-                            <li class="nav-item">
-
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="SellerOrders"
-                                   asp-action="Index">
-
-                                    Orders on My Products
-
-                                </a>
-
-                            </li>
                         }
 
 
-                        <!-- Admin -->
+                        <!-- ADMIN -->
                         @if (User.IsInRole("Admin"))
                         {
-                            <!-- Admin Dashboard -->
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
-                                   asp-area=""
+                                <a class="nav-link tagr-nav-link"
                                    asp-controller="Dashboard"
                                    asp-action="Index">
 
-                                    <i class="bi bi-speedometer2 me-1"></i>
+                                    <i class="bi bi-speedometer2"></i>
                                     Dashboard
-
-                                </a>
-
-                            </li>
-
-
-                            <!-- Categories -->
-                            <li class="nav-item">
-
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="Categories"
-                                   asp-action="Index">
-
-                                    <i class="bi bi-tags me-1"></i>
-                                    Categories
 
                                 </a>
 
@@ -212,8 +225,13 @@
                     </ul>
 
 
-                    <!-- Login / Account -->
-                    <partial name="_LoginPartial" />
+                    <!-- LOGIN PARTIAL -->
+
+                    <div class="d-flex align-items-center">
+
+                        <partial name="_LoginPartial" />
+
+                    </div>
 
                 </div>
 
@@ -224,39 +242,117 @@
     </header>
 
 
-    <!-- Main Content -->
-    <div class="container">
+    <!-- ================= MAIN ================= -->
 
-        <main role="main" class="pb-3">
+    <main>
 
-            @RenderBody()
+        @RenderBody()
 
-        </main>
-
-    </div>
+    </main>
 
 
-    <!-- Footer -->
-    <footer class="border-top footer text-muted">
+    <!-- ================= FOOTER ================= -->
 
-        <div class="container">
+    <footer class="tagr-footer">
 
-            &copy; 2026 - tagr -
+        <div class="container-fluid">
 
-            <a asp-area=""
-               asp-controller="Home"
-               asp-action="Privacy">
+            <div class="row align-items-center">
 
-                Privacy
+                <div class="col-md-4">
 
-            </a>
+                    <div class="footer-brand">
+
+                        <i class="bi bi-bag-heart-fill"></i>
+                        TAGR
+
+                    </div>
+
+                    <p class="footer-description">
+
+                        Your trusted online marketplace.
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="footer-links">
+
+                        <a asp-controller="Products"
+                           asp-action="Index">
+
+                            Products
+
+                        </a>
+
+                        <a asp-controller="Products"
+                           asp-action="Index">
+
+                            Categories
+
+                        </a>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <a asp-controller="Orders"
+                               asp-action="Index">
+
+                                My Orders
+
+                            </a>
+                        }
+
+                        <a asp-controller="Home"
+                           asp-action="Privacy">
+
+                            Privacy
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4 text-md-end">
+
+                    <div class="d-flex gap-2 justify-content-md-end">
+
+                        <span class="footer-social">
+                            <i class="bi bi-facebook"></i>
+                        </span>
+
+                        <span class="footer-social">
+                            <i class="bi bi-instagram"></i>
+                        </span>
+
+                        <span class="footer-social">
+                            <i class="bi bi-twitter-x"></i>
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                © 2026 TAGR. All rights reserved.
+
+            </div>
 
         </div>
 
     </footer>
 
 
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -268,4 +364,5 @@
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
+
 </html>

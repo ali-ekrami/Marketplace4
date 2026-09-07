@@ -1,8 +1,356 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+
+@model List<tagr.ViewModels.ProductListItemViewModel>
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-page">
+
+    <!-- HERO -->
+    <section class="hero-section">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                <i class="bi bi-stars"></i>
+                Welcome to TAGR
+            </span>
+
+            <h1>
+                Discover Something
+                <span>You'll Love</span>
+            </h1>
+
+            <p>
+                Everything you need, all in one place.
+                Find great products from trusted sellers
+                and enjoy a simple and secure shopping experience.
+            </p>
+
+            <form class="hero-search"
+                  asp-controller="Products"
+                  asp-action="Index"
+                  method="get">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       name="searchString"
+                       placeholder="Search for products..." />
+
+                <button type="submit">
+                    Search
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+
+            </form>
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               class="hero-btn">
+
+                Explore Products
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <!-- HERO VISUAL -->
+        <div class="hero-visual">
+
+            <div class="floating-card card-one">
+                <i class="bi bi-tag-fill"></i>
+
+                <div>
+                    <strong>Best Quality</strong>
+                    <small>Best Prices</small>
+                </div>
+            </div>
+
+
+            <div class="shopping-scene">
+
+                <div class="product-blob laptop">
+                    <i class="bi bi-laptop"></i>
+                </div>
+
+                <div class="product-blob phone">
+                    <i class="bi bi-phone"></i>
+                </div>
+
+                <div class="product-blob headphones">
+                    <i class="bi bi-headphones"></i>
+                </div>
+
+                <div class="product-blob watch">
+                    <i class="bi bi-smartwatch"></i>
+                </div>
+
+                <div class="shopping-bag">
+                    <i class="bi bi-bag-heart-fill"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CATEGORIES -->
+    <section class="section-container">
+
+        <div class="section-header">
+
+            <div>
+                <span class="section-line"></span>
+                <h2>Shop by Category</h2>
+            </div>
+
+            <a asp-controller="Products"
+               asp-action="Index">
+                View All
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="category-grid">
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               asp-route-categoryId="1"
+               class="category-card category-blue">
+
+                <div class="category-icon">
+                    <i class="bi bi-laptop"></i>
+                </div>
+
+                <h3>Electronics</h3>
+                <span>Technology & Devices</span>
+
+            </a>
+
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               asp-route-categoryId="2"
+               class="category-card category-pink">
+
+                <div class="category-icon">
+                    <i class="bi bi-person-standing"></i>
+                </div>
+
+                <h3>Fashion</h3>
+                <span>Style & Clothing</span>
+
+            </a>
+
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               asp-route-categoryId="3"
+               class="category-card category-purple">
+
+                <div class="category-icon">
+                    <i class="bi bi-book"></i>
+                </div>
+
+                <h3>Books</h3>
+                <span>Learn & Discover</span>
+
+            </a>
+
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               asp-route-categoryId="4"
+               class="category-card category-green">
+
+                <div class="category-icon">
+                    <i class="bi bi-house"></i>
+                </div>
+
+                <h3>Home & Kitchen</h3>
+                <span>For Your Home</span>
+
+            </a>
+
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               asp-route-categoryId="5"
+               class="category-card category-orange">
+
+                <div class="category-icon">
+                    <i class="bi bi-trophy"></i>
+                </div>
+
+                <h3>Sports</h3>
+                <span>Stay Active</span>
+
+            </a>
+
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               asp-route-categoryId="6"
+               class="category-card category-red">
+
+                <div class="category-icon">
+                    <i class="bi bi-controller"></i>
+                </div>
+
+                <h3>Toys & Games</h3>
+                <span>Fun For Everyone</span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURED PRODUCTS -->
+    <section class="section-container products-section">
+
+        <div class="section-header">
+
+            <div>
+                <span class="section-line"></span>
+                <h2>Featured Products</h2>
+            </div>
+
+            <a asp-controller="Products"
+               asp-action="Index">
+
+                View All
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <div class="product-grid">
+
+            @foreach (var product in Model)
+            {
+                <div class="product-card">
+
+                    <div class="product-image">
+
+                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img src="@product.ImageUrl"
+                                 alt="@product.Name"
+                                 class="product-main-image" />
+                        }
+                        else
+                        {
+                            <div class="no-product-image">
+                                <i class="bi bi-image"></i>
+                            </div>
+                        }
+
+                        <button class="wishlist-btn" type="button">
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+                    <div class="product-info">
+
+                        <span class="product-category">
+                            @product.CategoryName
+                        </span>
+
+                        <h3>@product.Name</h3>
+
+                        <div class="rating">
+                            ★★★★★
+                        </div>
+
+                        <div class="product-bottom">
+
+                            <strong>
+                                $@product.Price.ToString("N2")
+                            </strong>
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="@product.Id"
+                               class="add-cart-btn">
+
+                                <i class="bi bi-cart-plus"></i>
+                                View
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </section>
+
+
+    <!-- WHY TAGR -->
+    <section class="features-section">
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                <i class="bi bi-truck"></i>
+            </div>
+
+            <div>
+                <h3>Easy Shopping</h3>
+                <p>Browse products with ease.</p>
+            </div>
+
+        </div>
+
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+                <h3>Trusted Sellers</h3>
+                <p>Shop confidently from trusted sellers.</p>
+            </div>
+
+        </div>
+
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                <i class="bi bi-star"></i>
+            </div>
+
+            <div>
+                <h3>Customer Reviews</h3>
+                <p>Read reviews before buying.</p>
+            </div>
+
+        </div>
+
+    </section>
+
 </div>
+
+
+
