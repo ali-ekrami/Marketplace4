@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using tagr.Models;
 
@@ -172,7 +172,7 @@ namespace tagr.Data
                         Price = 999.99m,
                         StockQuantity = 10,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/laptop",
+                            "https://loremflickr.com/600/400/laptop?lock=1",
                         CategoryId = electronics.Id,
                         SellerId = seller.Id
                     },
@@ -185,7 +185,7 @@ namespace tagr.Data
                         Price = 699.99m,
                         StockQuantity = 15,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/smartphone",
+                            "https://loremflickr.com/600/400/smartphone?lock=2",
                         CategoryId = electronics.Id,
                         SellerId = seller.Id
                     },
@@ -198,7 +198,7 @@ namespace tagr.Data
                         Price = 24.99m,
                         StockQuantity = 30,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/tshirt,fashion",
+                            "https://loremflickr.com/600/400/tshirt,fashion?lock=3",
                         CategoryId = fashion.Id,
                         SellerId = seller.Id
                     },
@@ -211,7 +211,7 @@ namespace tagr.Data
                         Price = 39.99m,
                         StockQuantity = 20,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/book,programming",
+                            "https://loremflickr.com/600/400/book,programming?lock=4",
                         CategoryId = books.Id,
                         SellerId = seller.Id
                     },
@@ -224,7 +224,7 @@ namespace tagr.Data
                         Price = 89.99m,
                         StockQuantity = 8,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/coffeemaker",
+                            "https://loremflickr.com/600/400/coffeemaker?lock=5",
                         CategoryId = homeKitchen.Id,
                         SellerId = seller.Id
                     },
@@ -237,7 +237,7 @@ namespace tagr.Data
                         Price = 129.99m,
                         StockQuantity = 25,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/headphones",
+                            "https://loremflickr.com/600/400/headphones?lock=6",
                         CategoryId = electronics.Id,
                         SellerId = seller.Id
                     },
@@ -250,21 +250,8 @@ namespace tagr.Data
                         Price = 199.99m,
                         StockQuantity = 12,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/smartwatch",
+                            "https://loremflickr.com/600/400/smartwatch?lock=7",
                         CategoryId = electronics.Id,
-                        SellerId = seller.Id
-                    },
-
-                    new Product
-                    {
-                        Name = "Denim Jacket",
-                        Description =
-                            "Classic denim jacket suitable for all seasons.",
-                        Price = 59.99m,
-                        StockQuantity = 18,
-                        ImageUrl =
-                            "https://loremflickr.com/600/400/denimjacket",
-                        CategoryId = fashion.Id,
                         SellerId = seller.Id
                     },
 
@@ -276,7 +263,7 @@ namespace tagr.Data
                         Price = 74.99m,
                         StockQuantity = 22,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/runningshoes",
+                            "https://loremflickr.com/600/400/runningshoes?lock=8",
                         CategoryId = fashion.Id,
                         SellerId = seller.Id
                     },
@@ -289,7 +276,7 @@ namespace tagr.Data
                         Price = 29.99m,
                         StockQuantity = 25,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/novel,books",
+                            "https://loremflickr.com/600/400/novel,books?lock=9",
                         CategoryId = books.Id,
                         SellerId = seller.Id
                     },
@@ -302,7 +289,7 @@ namespace tagr.Data
                         Price = 19.99m,
                         StockQuantity = 16,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/cookbook",
+                            "https://loremflickr.com/600/400/cookbook?lock=10",
                         CategoryId = books.Id,
                         SellerId = seller.Id
                     },
@@ -315,7 +302,7 @@ namespace tagr.Data
                         Price = 49.99m,
                         StockQuantity = 14,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/blender",
+                            "https://loremflickr.com/600/400/blender,kitchen?lock=11",
                         CategoryId = homeKitchen.Id,
                         SellerId = seller.Id
                     },
@@ -328,7 +315,7 @@ namespace tagr.Data
                         Price = 119.99m,
                         StockQuantity = 9,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/cookware",
+                            "https://loremflickr.com/600/400/cookware?lock=12",
                         CategoryId = homeKitchen.Id,
                         SellerId = seller.Id
                     },
@@ -341,7 +328,7 @@ namespace tagr.Data
                         Price = 27.99m,
                         StockQuantity = 40,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/yogamat",
+                            "https://loremflickr.com/600/400/yogamat?lock=13",
                         CategoryId = sports.Id,
                         SellerId = seller.Id
                     },
@@ -354,7 +341,7 @@ namespace tagr.Data
                         Price = 89.99m,
                         StockQuantity = 11,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/dumbbell",
+                            "https://loremflickr.com/600/400/dumbbell?lock=14",
                         CategoryId = sports.Id,
                         SellerId = seller.Id
                     },
@@ -367,7 +354,7 @@ namespace tagr.Data
                         Price = 149.99m,
                         StockQuantity = 7,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/campingtent",
+                            "https://loremflickr.com/600/400/campingtent?lock=15",
                         CategoryId = sports.Id,
                         SellerId = seller.Id
                     },
@@ -380,7 +367,7 @@ namespace tagr.Data
                         Price = 34.99m,
                         StockQuantity = 26,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/buildingblocks,toy",
+                            "https://loremflickr.com/600/400/buildingblocks,toy?lock=16",
                         CategoryId = toys.Id,
                         SellerId = seller.Id
                     },
@@ -393,7 +380,7 @@ namespace tagr.Data
                         Price = 44.99m,
                         StockQuantity = 13,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/rccar,toy",
+                            "https://loremflickr.com/600/400/rccar,toy?lock=17",
                         CategoryId = toys.Id,
                         SellerId = seller.Id
                     },
@@ -406,7 +393,7 @@ namespace tagr.Data
                         Price = 24.99m,
                         StockQuantity = 20,
                         ImageUrl =
-                            "https://loremflickr.com/600/400/boardgame",
+                            "https://loremflickr.com/600/400/boardgame?lock=18",
                         CategoryId = toys.Id,
                         SellerId = seller.Id
                     }
