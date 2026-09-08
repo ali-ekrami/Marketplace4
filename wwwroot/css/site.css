@@ -486,7 +486,19 @@ a {
     align-items: center;
     overflow: hidden;
 }
+.product-main-image {
+    width: 100%;
+    height: 190px;
+    object-fit: contain;
+    display: block;
+    padding: 15px;
+    background: #f8fbff;
+    transition: transform 0.4s ease;
+}
 
+.product-card:hover .product-main-image {
+    transform: scale(1.05);
+}
 .product-blue {
     background: linear-gradient(145deg, #e9f4ff, #dcecff);
 }
