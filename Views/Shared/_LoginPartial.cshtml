@@ -1,73 +1,85 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using tagr.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav align-items-lg-center gap-lg-1">
+<ul class="navbar-nav align-items-lg-center gap-lg-2 tagr-auth-nav">
 
     @if (SignInManager.IsSignedIn(User))
     {
-        <!-- User -->
+        <!-- User Profile Pill with 3D Avatar -->
         <li class="nav-item">
-            <span class="nav-link text-dark">
-                <i class="bi bi-person-circle me-1"></i>
-                Hello, @User.Identity?.Name
-            </span>
+            <div class="tagr-user-chip d-flex align-items-center" title="Logged in as @User.Identity?.Name">
+                <div class="tagr-avatar-icon">
+                    <i class="fa-solid fa-user tagr-nav-icon"></i>
+                </div>
+                <span class="tagr-user-name text-truncate">
+                    @(User.Identity?.Name?.Split('@')[0] ?? "User")
+                </span>
+            </div>
         </li>
 
-        <!-- Become Seller -->
+        <!-- Become Seller Button (For Regular Customers) -->
         @if (!User.IsInRole("Seller") && !User.IsInRole("Admin"))
         {
             <li class="nav-item">
-                <a class="nav-link text-success fw-semibold"
+                <a class="nav-link tagr-btn-seller-badge"
                    asp-area=""
                    asp-controller="Seller"
                    asp-action="Become">
-                    <i class="bi bi-shop me-1"></i>
-                    Become a Seller
+                    <i class="fa-solid fa-store tagr-nav-icon me-1"></i>
+                    <span>Become a Seller</span>
                 </a>
             </li>
         }
 
-        <!-- Seller -->
+        <!-- Seller Studio Dropdown -->
         @if (User.IsInRole("Seller"))
         {
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle fw-semibold"
+                <a class="nav-link dropdown-toggle tagr-dropdown-toggle fw-semibold text-primary"
                    href="#"
+                   id="sellerDropdown"
                    role="button"
                    data-bs-toggle="dropdown"
                    aria-expanded="false">
-                    <i class="bi bi-shop me-1"></i>
-                    Seller
+                    <i class="fa-solid fa-briefcase tagr-nav-icon me-1"></i>
+                    <span>Seller Studio</span>
                 </a>
 
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                <ul class="dropdown-menu dropdown-menu-end tagr-glass-dropdown shadow-lg" aria-labelledby="sellerDropdown">
 
                     <li>
-                        <a class="dropdown-item"
+                        <a class="dropdown-item tagr-dropdown-item"
+                           asp-area=""
                            asp-controller="Products"
                            asp-action="MyProducts">
-                            <i class="bi bi-box-seam me-2"></i>
-                            My Products
+                            <i class="fa-solid fa-boxes-stacked tagr-nav-icon me-2 text-primary"></i>
+                            <span>My Products</span>
                         </a>
                     </li>
 
                     <li>
-                        <a class="dropdown-item"
+                        <a class="dropdown-item tagr-dropdown-item"
+                           asp-area=""
                            asp-controller="SellerOrders"
                            asp-action="Index">
-                            <i class="bi bi-receipt me-2"></i>
-                            Orders
+                            <i class="fa-solid fa-receipt tagr-nav-icon me-2 text-primary"></i>
+                            <span>Seller Orders</span>
                         </a>
                     </li>
 
                     <li>
-                        <a class="dropdown-item"
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item tagr-dropdown-item"
+                           asp-area=""
                            asp-controller="Seller"
                            asp-action="Become">
-                            <i class="bi bi-person-badge me-2"></i>
-                            Seller Status
+                            <i class="fa-solid fa-id-badge tagr-nav-icon me-2 text-primary"></i>
+                            <span>Seller Status</span>
                         </a>
                     </li>
 
@@ -75,48 +87,49 @@
             </li>
         }
 
-        <!-- Admin -->
+        <!-- Admin Hub Dropdown -->
         @if (User.IsInRole("Admin"))
         {
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle fw-semibold text-primary"
+                <a class="nav-link dropdown-toggle tagr-dropdown-toggle fw-semibold text-primary tagr-admin-badge"
                    href="#"
+                   id="adminDropdown"
                    role="button"
                    data-bs-toggle="dropdown"
                    aria-expanded="false">
-                    <i class="bi bi-shield-check me-1"></i>
-                    Admin
+                    <i class="fa-solid fa-shield-halved tagr-nav-icon me-1"></i>
+                    <span>Admin</span>
                 </a>
 
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                <ul class="dropdown-menu dropdown-menu-end tagr-glass-dropdown shadow-lg" aria-labelledby="adminDropdown">
 
                     <li>
-                        <a class="dropdown-item"
+                        <a class="dropdown-item tagr-dropdown-item"
                            asp-area="Admin"
                            asp-controller="Users"
                            asp-action="Index">
-                            <i class="bi bi-people me-2"></i>
-                            Manage Users
+                            <i class="fa-solid fa-users tagr-nav-icon me-2 text-primary"></i>
+                            <span>Manage Users</span>
                         </a>
                     </li>
 
                     <li>
-                        <a class="dropdown-item"
+                        <a class="dropdown-item tagr-dropdown-item"
                            asp-area="Admin"
                            asp-controller="Sellers"
                            asp-action="Requests">
-                            <i class="bi bi-person-check me-2"></i>
-                            Seller Requests
+                            <i class="fa-solid fa-user-check tagr-nav-icon me-2 text-primary"></i>
+                            <span>Seller Requests</span>
                         </a>
                     </li>
 
                     <li>
-                        <a class="dropdown-item"
+                        <a class="dropdown-item tagr-dropdown-item"
                            asp-area="Admin"
                            asp-controller="Orders"
                            asp-action="Index">
-                            <i class="bi bi-receipt me-2"></i>
-                            All Orders
+                            <i class="fa-solid fa-clipboard-list tagr-nav-icon me-2 text-primary"></i>
+                            <span>All Marketplace Orders</span>
                         </a>
                     </li>
 
@@ -124,21 +137,23 @@
             </li>
         }
 
-        <!-- Logout -->
-        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+        <!-- Logout Action Form -->
+        <li class="nav-item ms-lg-1 mt-2 mt-lg-0">
 
             <form asp-area=""
                   asp-controller="Account"
                   asp-action="Logout"
-                  method="post">
+                  method="post"
+                  class="d-inline">
 
                 @Html.AntiForgeryToken()
 
                 <button type="submit"
-                        class="btn btn-outline-danger btn-sm px-3">
+                        class="btn tagr-btn-logout btn-sm px-3"
+                        title="Sign out of your account">
 
-                    <i class="bi bi-box-arrow-right me-1"></i>
-                    Logout
+                    <i class="fa-solid fa-arrow-right-from-bracket tagr-nav-icon me-1"></i>
+                    <span>Logout</span>
 
                 </button>
 
@@ -148,29 +163,31 @@
     }
     else
     {
-        <!-- Register -->
-        <li class="nav-item me-lg-2 mb-2 mb-lg-0">
+        <!-- Register Button -->
+        <li class="nav-item me-lg-1 mb-2 mb-lg-0">
 
-            <a class="btn btn-outline-primary btn-sm px-3"
+            <a class="btn tagr-btn-secondary btn-sm px-3"
+               asp-area=""
                asp-controller="Account"
                asp-action="Register">
 
-                <i class="bi bi-person-plus me-1"></i>
-                Create Account
+                <i class="fa-solid fa-user-plus tagr-nav-icon me-1"></i>
+                <span>Create Account</span>
 
             </a>
 
         </li>
 
-        <!-- Login -->
+        <!-- Login Button -->
         <li class="nav-item">
 
-            <a class="btn btn-primary btn-sm px-3"
+            <a class="btn tagr-btn-primary btn-sm px-3"
+               asp-area=""
                asp-controller="Account"
                asp-action="Login">
 
-                <i class="bi bi-box-arrow-in-right me-1"></i>
-                Login
+                <i class="fa-solid fa-arrow-right-to-bracket tagr-nav-icon me-1"></i>
+                <span>Login</span>
 
             </a>
 

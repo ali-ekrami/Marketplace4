@@ -1,6 +1,28 @@
-﻿
+@using tagr.Services.Interfaces
+@inject ICartService CartService
+@inject IWishlistService WishlistService
 
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var currentArea = ViewContext.RouteData.Values["area"]?.ToString() ?? "";
 
+    int cartItemCount = 0;
+    int wishlistItemCount = 0;
+    if (User.Identity?.IsAuthenticated == true)
+    {
+        try
+        {
+            cartItemCount = await CartService.GetItemCountAsync();
+            var wishlistItems = await WishlistService.GetAsync();
+            wishlistItemCount = wishlistItems?.Count ?? 0;
+        }
+        catch
+        {
+            // Transient fallback during auth state changes
+        }
+    }
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,14 +34,41 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"] - TAGR</title>
+    <title>@ViewData["Title"] - TAGR Modern Marketplace</title>
 
+    <!-- Immediate Theme Initialization to Prevent Page Flicker -->
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('tagr-theme');
+                const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = savedTheme || (systemDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Modern Typography: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
+    <!-- FontAwesome 6 CDN (Standard Solid & 3D Icons) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap Icons CDN (Compatibility) -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
+    <!-- Custom Modern Marketplace & 3D Styles -->
     <link rel="stylesheet"
           href="~/css/site.css"
           asp-append-version="true" />
@@ -28,37 +77,198 @@
           href="~/tagr.styles.css"
           asp-append-version="true" />
 
+    <!-- ================= Global CSS Custom Properties (Theme Variables) ================= -->
+    <style id="tagr-global-theme">
+        :root {
+            --tagr-theme: 'light';
+
+            /* Brand Primary: Royal Indigo & Electric Violet */
+            --tagr-primary: #6366f1;
+            --tagr-primary-dark: #4f46e5;
+            --tagr-primary-light: #eef2ff;
+            --tagr-primary-glow: rgba(99, 102, 241, 0.35);
+
+            /* Accent Secondary: Electric Emerald */
+            --tagr-secondary: #10b981;
+            --tagr-secondary-dark: #059669;
+            --tagr-secondary-light: #ecfdf5;
+            --tagr-secondary-glow: rgba(16, 185, 129, 0.35);
+
+            /* Warm Accents: Radiant Amber & Sunset Rose */
+            --tagr-accent-amber: #f59e0b;
+            --tagr-accent-rose: #ec4899;
+            --tagr-danger: #ef4444;
+
+            /* Light Theme Surfaces & Backgrounds */
+            --tagr-bg: #fafbfd;
+            --tagr-bg-gradient: radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08), transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.06), transparent 35%),
+                #fafbfd;
+            --tagr-surface: #ffffff;
+            --tagr-surface-subtle: #f8fafc;
+            --tagr-surface-hover: #f1f5f9;
+
+            /* Glassmorphism Variables */
+            --tagr-glass-bg: rgba(255, 255, 255, 0.85);
+            --tagr-glass-border: rgba(226, 232, 240, 0.8);
+            --tagr-glass-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+
+            /* Text & Border Colors */
+            --tagr-text-main: #0f172a;
+            --tagr-text-secondary: #334155;
+            --tagr-text-muted: #64748b;
+            --tagr-border: #e2e8f0;
+            --tagr-border-subtle: rgba(226, 232, 240, 0.75);
+
+            /* Card System */
+            --tagr-card-bg: #ffffff;
+            --tagr-card-border: #e2e8f0;
+            --tagr-card-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+            --tagr-card-hover-shadow: 0 22px 40px -10px rgba(99, 102, 241, 0.16), 0 12px 20px -4px rgba(15, 23, 42, 0.06);
+
+            /* Footer */
+            --tagr-footer-bg: #090e1a;
+            --tagr-footer-text: #94a3b8;
+            --tagr-footer-border: rgba(255, 255, 255, 0.07);
+
+            /* Shadows & 3D Lighting */
+            --tagr-shadow-sm: 0 2px 5px rgba(15, 23, 42, 0.04);
+            --tagr-shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+            --tagr-shadow-lg: 0 20px 35px -8px rgba(15, 23, 42, 0.12);
+            --tagr-shadow-neon: 0 0 25px rgba(99, 102, 241, 0.35);
+
+            /* Bootstrap Color Overrides (Replaces default #0d6efd) */
+            --bs-primary: #6366f1;
+            --bs-primary-rgb: 99, 102, 241;
+            --bs-primary-hover: #4f46e5;
+            --bs-primary-active: #4338ca;
+            --bs-success: #10b981;
+            --bs-success-rgb: 16, 185, 129;
+            --bs-warning: #f59e0b;
+            --bs-warning-rgb: 245, 158, 11;
+            --bs-danger: #ef4444;
+            --bs-danger-rgb: 239, 68, 68;
+            --bs-body-bg: var(--tagr-bg);
+            --bs-body-color: var(--tagr-text-main);
+            --bs-border-color: var(--tagr-border);
+            --bs-card-bg: var(--tagr-card-bg);
+            --bs-card-border-color: var(--tagr-card-border);
+            --bs-secondary-bg: var(--tagr-surface-subtle);
+            --bs-tertiary-bg: var(--tagr-surface-subtle);
+            --bs-body-font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --tagr-theme: 'dark';
+
+            /* Brand Primary: Cyber Indigo */
+            --tagr-primary: #818cf8;
+            --tagr-primary-dark: #6366f1;
+            --tagr-primary-light: rgba(129, 140, 248, 0.15);
+            --tagr-primary-glow: rgba(129, 140, 248, 0.5);
+
+            /* Accent Secondary: Glowing Emerald */
+            --tagr-secondary: #34d399;
+            --tagr-secondary-dark: #10b981;
+            --tagr-secondary-light: rgba(52, 211, 153, 0.15);
+            --tagr-secondary-glow: rgba(52, 211, 153, 0.5);
+
+            /* Warm Accents */
+            --tagr-accent-amber: #fbbf24;
+            --tagr-accent-rose: #f472b6;
+            --tagr-danger: #f87171;
+
+            /* Dark Backgrounds & Surfaces */
+            --tagr-bg: #090d16;
+            --tagr-bg-gradient: radial-gradient(circle at 15% 15%, rgba(129, 140, 248, 0.14), transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(52, 211, 153, 0.1), transparent 40%),
+                #090d16;
+            --tagr-surface: #111827;
+            --tagr-surface-subtle: #1e293b;
+            --tagr-surface-hover: #1e293b;
+
+            /* Glassmorphism Dark */
+            --tagr-glass-bg: rgba(17, 24, 39, 0.85);
+            --tagr-glass-border: rgba(255, 255, 255, 0.1);
+            --tagr-glass-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 4px 10px -2px rgba(0, 0, 0, 0.4);
+
+            /* Dark Text & Borders */
+            --tagr-text-main: #f8fafc;
+            --tagr-text-secondary: #cbd5e1;
+            --tagr-text-muted: #94a3b8;
+            --tagr-border: #1f293d;
+            --tagr-border-subtle: rgba(255, 255, 255, 0.08);
+
+            /* Dark Cards */
+            --tagr-card-bg: #111827;
+            --tagr-card-border: rgba(255, 255, 255, 0.07);
+            --tagr-card-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            --tagr-card-hover-shadow: 0 24px 44px -10px rgba(129, 140, 248, 0.22), 0 12px 20px -4px rgba(0, 0, 0, 0.5);
+
+            /* Dark Footer */
+            --tagr-footer-bg: #040711;
+            --tagr-footer-text: #64748b;
+            --tagr-footer-border: rgba(255, 255, 255, 0.05);
+
+            /* Dark Shadows */
+            --tagr-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.4);
+            --tagr-shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.55);
+            --tagr-shadow-lg: 0 22px 40px -10px rgba(0, 0, 0, 0.75);
+            --tagr-shadow-neon: 0 0 28px rgba(129, 140, 248, 0.45);
+
+            /* Bootstrap Dark Overrides */
+            --bs-primary: #818cf8;
+            --bs-primary-rgb: 129, 140, 248;
+            --bs-primary-hover: #6366f1;
+            --bs-success: #34d399;
+            --bs-success-rgb: 52, 211, 153;
+            --bs-body-bg: var(--tagr-bg);
+            --bs-body-color: var(--tagr-text-main);
+            --bs-border-color: var(--tagr-border);
+            --bs-card-bg: var(--tagr-card-bg);
+            --bs-card-border-color: var(--tagr-card-border);
+            --bs-secondary-bg: #1e293b;
+            --bs-tertiary-bg: #1e293b;
+        }
+    </style>
+
 </head>
 
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- ================= 3D GLASSMORPHISM NAVBAR ================= -->
 
-    <header>
+    <header class="tagr-header-wrapper">
 
         <nav class="navbar navbar-expand-lg tagr-navbar">
 
             <div class="container-fluid px-lg-5">
 
-                <!-- LOGO -->
+                <!-- 3D BRAND LOGO -->
 
                 <a class="navbar-brand tagr-brand"
+                   asp-area=""
                    asp-controller="Home"
                    asp-action="Index">
 
-                    <i class="bi bi-bag-heart-fill"></i>
-                    TAGR
+                    <span class="tagr-brand-icon-wrapper">
+                        <i class="fa-solid fa-bag-shopping tagr-nav-icon tagr-brand-icon"></i>
+                    </span>
+                    <span class="tagr-brand-text">TAGR</span>
 
                 </a>
 
 
-                <!-- MOBILE BUTTON -->
+                <!-- MOBILE HAMBURGER BUTTON -->
 
-                <button class="navbar-toggler"
+                <button class="navbar-toggler tagr-navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#tagrNavbar">
+                        data-bs-target="#tagrNavbar"
+                        aria-controls="tagrNavbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
 
                     <span class="navbar-toggler-icon"></span>
 
@@ -69,20 +279,22 @@
                      id="tagrNavbar">
 
 
-                    <!-- LEFT LINKS -->
+                    <!-- LEFT NAVIGATION LINKS -->
 
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 tagr-nav-list">
 
 
                         <!-- HOME -->
 
                         <li class="nav-item">
 
-                            <a class="nav-link tagr-nav-link"
+                            <a class="nav-link tagr-nav-link @(currentArea == "" && currentController == "Home" && currentAction == "Index" ? "active" : "")"
+                               asp-area=""
                                asp-controller="Home"
                                asp-action="Index">
 
-                                Home
+                                <i class="fa-solid fa-house tagr-nav-icon"></i>
+                                <span>Home</span>
 
                             </a>
 
@@ -93,27 +305,31 @@
 
                         <li class="nav-item">
 
-                            <a class="nav-link tagr-nav-link"
+                            <a class="nav-link tagr-nav-link @(currentArea == "" && currentController == "Products" && (currentAction == "Index" || currentAction == "Details") ? "active" : "")"
+                               asp-area=""
                                asp-controller="Products"
                                asp-action="Index">
 
-                                Products
+                                <i class="fa-solid fa-layer-group tagr-nav-icon"></i>
+                                <span>Products</span>
 
                             </a>
 
                         </li>
 
 
-                        <!-- CATEGORIES -->
+                        <!-- CATEGORIES (Admin Management) -->
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link tagr-nav-link"
+                                <a class="nav-link tagr-nav-link @(currentArea == "" && currentController == "Categories" ? "active" : "")"
+                                   asp-area=""
                                    asp-controller="Categories"
                                    asp-action="Index">
 
-                                    Categories
+                                    <i class="fa-solid fa-tags tagr-nav-icon"></i>
+                                    <span>Categories</span>
 
                                 </a>
 
@@ -121,17 +337,27 @@
                         }
 
 
-                        <!-- CART -->
+                        <!-- CART (Dynamic Counter & 3D Bounce) -->
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link tagr-nav-link"
+                                <a class="nav-link tagr-nav-link tagr-nav-badge-link @(currentArea == "" && currentController == "Cart" ? "active" : "")"
+                                   asp-area=""
                                    asp-controller="Cart"
-                                   asp-action="Index">
+                                   asp-action="Index"
+                                   title="View Shopping Cart">
 
-                                    <i class="bi bi-cart3"></i>
-                                    My Cart
+                                    <div class="position-relative d-inline-flex align-items-center">
+                                        <i class="fa-solid fa-cart-shopping tagr-nav-icon"></i>
+                                        <span class="ms-1">My Cart</span>
+                                        @if (cartItemCount > 0)
+                                        {
+                                            <span class="badge rounded-pill bg-primary tagr-badge-count tagr-badge-pulse" id="navCartCounter">
+                                                @(cartItemCount > 99 ? "99+" : cartItemCount.ToString())
+                                            </span>
+                                        }
+                                    </div>
 
                                 </a>
 
@@ -139,17 +365,27 @@
                         }
 
 
-                        <!-- WISHLIST -->
+                        <!-- WISHLIST (Dynamic Counter & 3D Pulse) -->
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link tagr-nav-link"
+                                <a class="nav-link tagr-nav-link tagr-nav-badge-link @(currentArea == "" && currentController == "Wishlist" ? "active" : "")"
+                                   asp-area=""
                                    asp-controller="Wishlist"
-                                   asp-action="Index">
+                                   asp-action="Index"
+                                   title="View Saved Wishlist">
 
-                                    <i class="bi bi-heart"></i>
-                                    Wishlist
+                                    <div class="position-relative d-inline-flex align-items-center">
+                                        <i class="fa-solid fa-heart tagr-nav-icon text-danger"></i>
+                                        <span class="ms-1">Wishlist</span>
+                                        @if (wishlistItemCount > 0)
+                                        {
+                                            <span class="badge rounded-pill bg-danger tagr-badge-count" id="navWishlistCounter">
+                                                @(wishlistItemCount > 99 ? "99+" : wishlistItemCount.ToString())
+                                            </span>
+                                        }
+                                    </div>
 
                                 </a>
 
@@ -162,12 +398,13 @@
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link tagr-nav-link"
+                                <a class="nav-link tagr-nav-link @(currentArea == "" && currentController == "Orders" && currentAction == "Index" ? "active" : "")"
+                                   asp-area=""
                                    asp-controller="Orders"
                                    asp-action="Index">
 
-                                    <i class="bi bi-box-seam"></i>
-                                    My Orders
+                                    <i class="fa-solid fa-box-archive tagr-nav-icon"></i>
+                                    <span>My Orders</span>
 
                                 </a>
 
@@ -175,17 +412,18 @@
                         }
 
 
-                        <!-- SELLER -->
+                        <!-- SELLER DASHBOARD & MY PRODUCTS -->
                         @if (User.IsInRole("Seller"))
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link tagr-nav-link"
+                                <a class="nav-link tagr-nav-link tagr-badge-seller @(currentArea == "" && currentController == "Dashboard" && currentAction.Equals("Seller", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                                   asp-area=""
                                    asp-controller="Dashboard"
-                                   asp-action="seller">
+                                   asp-action="Seller">
 
-                                    <i class="bi bi-speedometer2"></i>
-                                    Dashboard
+                                    <i class="fa-solid fa-gauge-high tagr-nav-icon"></i>
+                                    <span>Dashboard</span>
 
                                 </a>
 
@@ -193,11 +431,13 @@
 
                             <li class="nav-item">
 
-                                <a class="nav-link tagr-nav-link"
+                                <a class="nav-link tagr-nav-link @(currentArea == "" && currentController == "Products" && currentAction == "MyProducts" ? "active" : "")"
+                                   asp-area=""
                                    asp-controller="Products"
                                    asp-action="MyProducts">
 
-                                    My Products
+                                    <i class="fa-solid fa-boxes-stacked tagr-nav-icon"></i>
+                                    <span>My Products</span>
 
                                 </a>
 
@@ -205,17 +445,18 @@
                         }
 
 
-                        <!-- ADMIN -->
+                        <!-- ADMIN HUB -->
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link tagr-nav-link"
+                                <a class="nav-link tagr-nav-link tagr-badge-admin @(currentArea == "" && currentController == "Dashboard" && currentAction == "Index" ? "active" : "")"
+                                   asp-area=""
                                    asp-controller="Dashboard"
                                    asp-action="Index">
 
-                                    <i class="bi bi-speedometer2"></i>
-                                    Dashboard
+                                    <i class="fa-solid fa-shield-halved tagr-nav-icon"></i>
+                                    <span>Admin Hub</span>
 
                                 </a>
 
@@ -225,10 +466,25 @@
                     </ul>
 
 
-                    <!-- LOGIN PARTIAL -->
+                    <!-- RIGHT CONTROLS: THEME TOGGLE & AUTH -->
 
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center gap-2">
 
+                        <!-- 3D THEME SWITCHER (DARK / LIGHT TOGGLE) -->
+                        <button type="button"
+                                class="btn tagr-theme-toggle"
+                                id="themeToggleBtn"
+                                aria-label="Toggle Dark / Light Mode"
+                                title="Switch Theme (Dark / Light)">
+
+                            <span class="tagr-theme-icon-container">
+                                <i class="fa-solid fa-sun tagr-nav-icon tagr-sun-icon" style="display:none;"></i>
+                                <i class="fa-solid fa-moon tagr-nav-icon tagr-moon-icon"></i>
+                            </span>
+
+                        </button>
+
+                        <!-- AUTH & PROFILE -->
                         <partial name="_LoginPartial" />
 
                     </div>
@@ -242,9 +498,9 @@
     </header>
 
 
-    <!-- ================= MAIN ================= -->
+    <!-- ================= MAIN CONTENT ================= -->
 
-    <main>
+    <main role="main" class="tagr-main-container">
 
         @RenderBody()
 
@@ -255,23 +511,23 @@
 
     <footer class="tagr-footer">
 
-        <div class="container-fluid">
+        <div class="container-fluid px-lg-5">
 
-            <div class="row align-items-center">
+            <div class="row align-items-center g-4">
 
                 <div class="col-md-4">
 
-                    <div class="footer-brand">
+                    <div class="footer-brand d-inline-flex align-items-center gap-2">
 
-                        <i class="bi bi-bag-heart-fill"></i>
-                        TAGR
+                        <span class="tagr-brand-icon-wrapper-sm">
+                            <i class="fa-solid fa-bag-shopping tagr-nav-icon"></i>
+                        </span>
+                        <span>TAGR</span>
 
                     </div>
 
                     <p class="footer-description">
-
-                        Your trusted online marketplace.
-
+                        Your next-generation marketplace. Discover premium products with seamless checkouts, verified sellers, and dynamic shopping experiences.
                     </p>
 
                 </div>
@@ -281,35 +537,31 @@
 
                     <div class="footer-links">
 
-                        <a asp-controller="Products"
+                        <a asp-area=""
+                           asp-controller="Products"
                            asp-action="Index">
-
-                            Products
-
+                            <i class="fa-solid fa-layer-group tagr-nav-icon me-1"></i>Products
                         </a>
 
-                        <a asp-controller="Products"
+                        <a asp-area=""
+                           asp-controller="Home"
                            asp-action="Index">
-
-                            Categories
-
+                            <i class="fa-solid fa-tags tagr-nav-icon me-1"></i>Categories
                         </a>
 
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-                            <a asp-controller="Orders"
+                            <a asp-area=""
+                               asp-controller="Orders"
                                asp-action="Index">
-
-                                My Orders
-
+                                <i class="fa-solid fa-box-archive tagr-nav-icon me-1"></i>My Orders
                             </a>
                         }
 
-                        <a asp-controller="Home"
+                        <a asp-area=""
+                           asp-controller="Home"
                            asp-action="Privacy">
-
-                            Privacy
-
+                            <i class="fa-solid fa-shield-halved tagr-nav-icon me-1"></i>Privacy
                         </a>
 
                     </div>
@@ -319,19 +571,23 @@
 
                 <div class="col-md-4 text-md-end">
 
-                    <div class="d-flex gap-2 justify-content-md-end">
+                    <div class="d-flex gap-2 justify-content-md-end align-items-center">
 
-                        <span class="footer-social">
-                            <i class="bi bi-facebook"></i>
-                        </span>
+                        <a href="javascript:void(0)" class="footer-social" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f tagr-nav-icon"></i>
+                        </a>
 
-                        <span class="footer-social">
-                            <i class="bi bi-instagram"></i>
-                        </span>
+                        <a href="javascript:void(0)" class="footer-social" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram tagr-nav-icon"></i>
+                        </a>
 
-                        <span class="footer-social">
-                            <i class="bi bi-twitter-x"></i>
-                        </span>
+                        <a href="javascript:void(0)" class="footer-social" aria-label="Twitter X">
+                            <i class="fa-brands fa-x-twitter tagr-nav-icon"></i>
+                        </a>
+
+                        <a href="javascript:void(0)" class="footer-social" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin-in tagr-nav-icon"></i>
+                        </a>
 
                     </div>
 
@@ -342,7 +598,18 @@
 
             <div class="footer-bottom">
 
-                © 2026 TAGR. All rights reserved.
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                    <div>
+                        © 2026 TAGR Marketplace. Built with ASP.NET Core MVC & Modern 3D Front-End Design.
+                    </div>
+                    <div class="d-flex gap-3 text-muted small">
+                        <span>Safe Payments</span>
+                        <span>•</span>
+                        <span>Buyer Protection</span>
+                        <span>•</span>
+                        <span>24/7 Verified Support</span>
+                    </div>
+                </div>
 
             </div>
 

@@ -1,356 +1,444 @@
-﻿
-
 @model List<tagr.ViewModels.ProductListItemViewModel>
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Home - Next-Gen 3D Marketplace";
 }
 
 <div class="home-page">
 
-    <!-- HERO -->
-    <section class="hero-section">
+    <!-- =========================================================
+         1. 100% FULL-WIDTH EDGE-TO-EDGE 3D HERO BANNER
+         Touches Navbar seamlessly with ZERO top/left/right margins
+         ========================================================= -->
+    <section class="tagr-hero-wrapper" id="heroWrapper">
 
-        <div class="hero-content">
+        <!-- Ambient Floating Glowing Orbs -->
+        <div class="tagr-hero-orb orb-1" id="heroOrb1"></div>
+        <div class="tagr-hero-orb orb-2" id="heroOrb2"></div>
 
-            <span class="hero-badge">
-                <i class="bi bi-stars"></i>
-                Welcome to TAGR
-            </span>
+        <div class="tagr-hero-grid">
 
-            <h1>
-                Discover Something
-                <span>You'll Love</span>
-            </h1>
+            <!-- Hero Left Content -->
+            <div class="tagr-hero-content" id="heroContent">
 
-            <p>
-                Everything you need, all in one place.
-                Find great products from trusted sellers
-                and enjoy a simple and secure shopping experience.
-            </p>
+                <span class="tagr-hero-badge">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Next-Gen 3D Marketplace
+                </span>
 
-            <form class="hero-search"
-                  asp-controller="Products"
-                  asp-action="Index"
-                  method="get">
+                <h1 class="tagr-hero-title">
+                    Discover Something
+                    <span class="tagr-text-gradient">Extraordinary.</span>
+                </h1>
 
-                <i class="bi bi-search"></i>
+                <p class="tagr-hero-subtitle">
+                    Explore curated, authentic collections from verified merchants. Enjoy instant digital checkout, 
+                    secure escrow buyer protection, and next-day express delivery.
+                </p>
 
-                <input type="text"
-                       name="searchString"
-                       placeholder="Search for products..." />
+                <!-- Interactive 3D Search Bar -->
+                <form class="tagr-3d-search"
+                      asp-area=""
+                      asp-controller="Products"
+                      asp-action="Index"
+                      method="get">
 
-                <button type="submit">
-                    Search
-                    <i class="bi bi-arrow-right"></i>
-                </button>
+                    <i class="fa-solid fa-magnifying-glass text-muted fs-5"></i>
 
-            </form>
+                    <input type="text"
+                           name="searchString"
+                           placeholder="Search across 10,000+ premium products..."
+                           aria-label="Search products" />
 
-            <a asp-controller="Products"
-               asp-action="Index"
-               class="hero-btn">
+                    <button type="submit" class="tagr-search-submit">
+                        <span>Search</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
 
-                Explore Products
-                <i class="bi bi-arrow-right"></i>
+                </form>
 
-            </a>
+                <!-- Trust Metrics -->
+                <div class="tagr-hero-metrics">
+
+                    <div class="tagr-metric-item">
+                        <span class="tagr-metric-value">10K+</span>
+                        <span class="tagr-metric-label">Curated Items</span>
+                    </div>
+
+                    <div class="tagr-metric-item">
+                        <span class="tagr-metric-value">100%</span>
+                        <span class="tagr-metric-label">Verified Sellers</span>
+                    </div>
+
+                    <div class="tagr-metric-item">
+                        <span class="tagr-metric-value">4.9 ★</span>
+                        <span class="tagr-metric-label">Buyer Rating</span>
+                    </div>
+
+                    <div class="tagr-metric-item">
+                        <span class="tagr-metric-value">24/7</span>
+                        <span class="tagr-metric-label">Escrow Support</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Hero Right 3D Visual Showcase (Scroll-Driven 3D Transform) -->
+            <div class="tagr-hero-3d-visual">
+
+                <!-- Floating Satellite Chip 1: Verified Protection -->
+                <div class="tagr-floating-chip chip-verified" id="heroChip1">
+                    <div class="tagr-chip-icon chip-emerald">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <strong class="d-block small text-main fw-bold">Escrow Protected</strong>
+                        <small class="text-muted" style="font-size: 0.72rem;">100% Safe Payments</small>
+                    </div>
+                </div>
+
+                <!-- Main 3D Floating Showcase Card -->
+                <div class="tagr-hero-card-main" id="heroScrollCard" data-tilt>
+
+                    <span class="tagr-hero-card-badge">
+                        <i class="fa-solid fa-bolt me-1"></i>Trending Today
+                    </span>
+
+                    <div class="tagr-hero-card-img-wrap">
+                        <i class="fa-solid fa-headphones-simple"></i>
+                    </div>
+
+                    <h4 class="tagr-hero-card-title">Spatial Pro Studio Edition</h4>
+                    <p class="text-muted small mb-3">Ultra-low latency wireless acoustic engineering</p>
+
+                    <div class="tagr-hero-card-meta">
+                        <div>
+                            <small class="text-muted d-block" style="font-size: 0.72rem;">Special Price</small>
+                            <span class="tagr-hero-card-price">$289.00</span>
+                        </div>
+
+                        <a asp-area=""
+                           asp-controller="Products"
+                           asp-action="Index"
+                           class="btn btn-sm tagr-btn-primary px-3">
+                            <span>Explore</span>
+                            <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Floating Satellite Chip 2: Flash Offer -->
+                <div class="tagr-floating-chip chip-offer" id="heroChip2">
+                    <div class="tagr-chip-icon chip-amber">
+                        <i class="fa-solid fa-tag"></i>
+                    </div>
+                    <div>
+                        <strong class="d-block small text-main fw-bold">Flash Deals</strong>
+                        <small class="text-muted" style="font-size: 0.72rem;">Up to 35% Discount</small>
+                    </div>
+                </div>
+
+            </div>
 
         </div>
 
+    </section>
 
-        <!-- HERO VISUAL -->
-        <div class="hero-visual">
 
-            <div class="floating-card card-one">
-                <i class="bi bi-tag-fill"></i>
+    <!-- =========================================================
+         2. REST OF HOME PAGE IN STANDARD BOOTSTRAP CONTAINER
+         Uses the EXACT SAME container margins and padding as all other pages
+         ========================================================= -->
+    <div class="container my-5">
+
+        <!-- =========================================================
+             SECTION: SHOP BY CATEGORY (3D SCROLL-REVEAL TILES)
+             ========================================================= -->
+        <section class="section-container mb-5" data-scroll-3d>
+
+            <div class="section-header mb-4">
 
                 <div>
-                    <strong>Best Quality</strong>
-                    <small>Best Prices</small>
+                    <span class="section-line"></span>
+                    <h2>Shop by Category</h2>
                 </div>
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   class="tagr-view-all-link">
+                    <span>View All Categories</span>
+                    <i class="fa-solid fa-arrow-right ms-1"></i>
+                </a>
+
             </div>
 
 
-            <div class="shopping-scene">
+            <div class="category-grid">
 
-                <div class="product-blob laptop">
-                    <i class="bi bi-laptop"></i>
-                </div>
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   asp-route-categoryId="1"
+                   class="category-card category-indigo tagr-scroll-card"
+                   data-tilt>
 
-                <div class="product-blob phone">
-                    <i class="bi bi-phone"></i>
-                </div>
+                    <div class="category-icon">
+                        <i class="fa-solid fa-laptop"></i>
+                    </div>
 
-                <div class="product-blob headphones">
-                    <i class="bi bi-headphones"></i>
-                </div>
+                    <h3>Electronics</h3>
+                    <span>Smart Devices & Tech</span>
 
-                <div class="product-blob watch">
-                    <i class="bi bi-smartwatch"></i>
-                </div>
+                </a>
 
-                <div class="shopping-bag">
-                    <i class="bi bi-bag-heart-fill"></i>
-                </div>
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   asp-route-categoryId="2"
+                   class="category-card category-rose tagr-scroll-card"
+                   data-tilt>
+
+                    <div class="category-icon">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+
+                    <h3>Fashion</h3>
+                    <span>Apparel & Modern Wear</span>
+
+                </a>
+
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   asp-route-categoryId="3"
+                   class="category-card category-violet tagr-scroll-card"
+                   data-tilt>
+
+                    <div class="category-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+
+                    <h3>Books</h3>
+                    <span>Knowledge & Media</span>
+
+                </a>
+
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   asp-route-categoryId="4"
+                   class="category-card category-emerald tagr-scroll-card"
+                   data-tilt>
+
+                    <div class="category-icon">
+                        <i class="fa-solid fa-couch"></i>
+                    </div>
+
+                    <h3>Home & Living</h3>
+                    <span>Interior & Comfort</span>
+
+                </a>
+
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   asp-route-categoryId="5"
+                   class="category-card category-amber tagr-scroll-card"
+                   data-tilt>
+
+                    <div class="category-icon">
+                        <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+
+                    <h3>Sports & Fitness</h3>
+                    <span>Performance Gear</span>
+
+                </a>
+
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   asp-route-categoryId="6"
+                   class="category-card category-cyan tagr-scroll-card"
+                   data-tilt>
+
+                    <div class="category-icon">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+
+                    <h3>Toys & Gaming</h3>
+                    <span>Entertainment & Fun</span>
+
+                </a>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    <!-- CATEGORIES -->
-    <section class="section-container">
+        <!-- =========================================================
+             SECTION: FEATURED PRODUCTS SHOWCASE (3D SCROLL CASCADE)
+             ========================================================= -->
+        <section class="section-container products-section my-5" data-scroll-3d>
 
-        <div class="section-header">
+            <div class="section-header mb-4">
 
-            <div>
-                <span class="section-line"></span>
-                <h2>Shop by Category</h2>
+                <div>
+                    <span class="section-line"></span>
+                    <h2>Featured Products</h2>
+                </div>
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   class="tagr-view-all-link">
+                    <span>View Full Catalog</span>
+                    <i class="fa-solid fa-arrow-right ms-1"></i>
+                </a>
+
             </div>
 
-            <a asp-controller="Products"
-               asp-action="Index">
-                View All
-                <i class="bi bi-arrow-right"></i>
-            </a>
 
-        </div>
+            <div class="product-grid">
 
+                @foreach (var product in Model)
+                {
+                    <div class="product-card tagr-scroll-card" data-tilt>
 
-        <div class="category-grid">
+                        <div class="product-image">
 
-            <a asp-controller="Products"
-               asp-action="Index"
-               asp-route-categoryId="1"
-               class="category-card category-blue">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl"
+                                     alt="@product.Name"
+                                     class="product-main-image" />
+                            }
+                            else
+                            {
+                                <div class="no-product-image text-muted d-flex align-items-center justify-content-center h-100 fs-1">
+                                    <i class="fa-solid fa-image"></i>
+                                </div>
+                            }
 
-                <div class="category-icon">
-                    <i class="bi bi-laptop"></i>
-                </div>
+                            @if (product.StockQuantity > 0)
+                            {
+                                <span class="badge position-absolute top-0 start-0 m-3"
+                                      style="background: var(--tagr-secondary); color: white; font-size: 0.7rem; font-weight: 700; border-radius: 20px; padding: 5px 10px;">
+                                    In Stock
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger position-absolute top-0 start-0 m-3"
+                                      style="font-size: 0.7rem; font-weight: 700; border-radius: 20px; padding: 5px 10px;">
+                                    Sold Out
+                                </span>
+                            }
 
-                <h3>Electronics</h3>
-                <span>Technology & Devices</span>
+                            <button class="wishlist-btn" type="button" aria-label="Add to Wishlist" title="Save to Wishlist">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
 
-            </a>
+                        </div>
 
+                        <div class="product-info">
 
-            <a asp-controller="Products"
-               asp-action="Index"
-               asp-route-categoryId="2"
-               class="category-card category-pink">
+                            <span class="product-category">
+                                @product.CategoryName
+                            </span>
 
-                <div class="category-icon">
-                    <i class="bi bi-person-standing"></i>
-                </div>
+                            <h3>@product.Name</h3>
 
-                <h3>Fashion</h3>
-                <span>Style & Clothing</span>
-
-            </a>
-
-
-            <a asp-controller="Products"
-               asp-action="Index"
-               asp-route-categoryId="3"
-               class="category-card category-purple">
-
-                <div class="category-icon">
-                    <i class="bi bi-book"></i>
-                </div>
-
-                <h3>Books</h3>
-                <span>Learn & Discover</span>
-
-            </a>
-
-
-            <a asp-controller="Products"
-               asp-action="Index"
-               asp-route-categoryId="4"
-               class="category-card category-green">
-
-                <div class="category-icon">
-                    <i class="bi bi-house"></i>
-                </div>
-
-                <h3>Home & Kitchen</h3>
-                <span>For Your Home</span>
-
-            </a>
-
-
-            <a asp-controller="Products"
-               asp-action="Index"
-               asp-route-categoryId="5"
-               class="category-card category-orange">
-
-                <div class="category-icon">
-                    <i class="bi bi-trophy"></i>
-                </div>
-
-                <h3>Sports</h3>
-                <span>Stay Active</span>
-
-            </a>
-
-
-            <a asp-controller="Products"
-               asp-action="Index"
-               asp-route-categoryId="6"
-               class="category-card category-red">
-
-                <div class="category-icon">
-                    <i class="bi bi-controller"></i>
-                </div>
-
-                <h3>Toys & Games</h3>
-                <span>Fun For Everyone</span>
-
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- FEATURED PRODUCTS -->
-    <section class="section-container products-section">
-
-        <div class="section-header">
-
-            <div>
-                <span class="section-line"></span>
-                <h2>Featured Products</h2>
-            </div>
-
-            <a asp-controller="Products"
-               asp-action="Index">
-
-                View All
-                <i class="bi bi-arrow-right"></i>
-
-            </a>
-
-        </div>
-
-
-        <div class="product-grid">
-
-            @foreach (var product in Model)
-            {
-                <div class="product-card">
-
-                    <div class="product-image">
-
-                        @if (!string.IsNullOrEmpty(product.ImageUrl))
-                        {
-                            <img src="@product.ImageUrl"
-                                 alt="@product.Name"
-                                 class="product-main-image" />
-                        }
-                        else
-                        {
-                            <div class="no-product-image">
-                                <i class="bi bi-image"></i>
+                            <div class="rating">
+                                ★★★★★
                             </div>
-                        }
 
-                        <button class="wishlist-btn" type="button">
-                            <i class="bi bi-heart"></i>
-                        </button>
+                            <div class="product-bottom">
 
-                    </div>
+                                <strong>
+                                    $@product.Price.ToString("N2")
+                                </strong>
 
-                    <div class="product-info">
+                                <a asp-area=""
+                                   asp-controller="Products"
+                                   asp-action="Details"
+                                   asp-route-id="@product.Id"
+                                   class="add-cart-btn">
 
-                        <span class="product-category">
-                            @product.CategoryName
-                        </span>
+                                    <i class="fa-solid fa-eye me-1"></i>
+                                    <span>Details</span>
 
-                        <h3>@product.Name</h3>
+                                </a>
 
-                        <div class="rating">
-                            ★★★★★
-                        </div>
-
-                        <div class="product-bottom">
-
-                            <strong>
-                                $@product.Price.ToString("N2")
-                            </strong>
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="@product.Id"
-                               class="add-cart-btn">
-
-                                <i class="bi bi-cart-plus"></i>
-                                View
-
-                            </a>
+                            </div>
 
                         </div>
 
                     </div>
+                }
 
+            </div>
+
+        </section>
+
+
+        <!-- =========================================================
+             SECTION: VALUE PILLARS (WHY CHOOSE TAGR)
+             ========================================================= -->
+        <section class="features-section my-5" data-scroll-3d>
+
+            <div class="feature-item tagr-scroll-card" data-tilt>
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
                 </div>
-            }
 
-        </div>
+                <div>
+                    <h3>Next-Day Dispatch</h3>
+                    <p>Tracked and insured delivery straight to your doorstep.</p>
+                </div>
 
-    </section>
-
-
-    <!-- WHY TAGR -->
-    <section class="features-section">
-
-        <div class="feature-item">
-
-            <div class="feature-icon">
-                <i class="bi bi-truck"></i>
             </div>
 
-            <div>
-                <h3>Easy Shopping</h3>
-                <p>Browse products with ease.</p>
+
+            <div class="feature-item tagr-scroll-card" data-tilt>
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+                    <h3>Verified Merchants</h3>
+                    <p>Every seller is KYC-verified with escrow payment release.</p>
+                </div>
+
             </div>
 
-        </div>
 
+            <div class="feature-item tagr-scroll-card" data-tilt>
 
-        <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
 
-            <div class="feature-icon">
-                <i class="bi bi-shield-check"></i>
+                <div>
+                    <h3>Real Buyer Reviews</h3>
+                    <p>Authentic feedback from verified past buyers only.</p>
+                </div>
+
             </div>
 
-            <div>
-                <h3>Trusted Sellers</h3>
-                <p>Shop confidently from trusted sellers.</p>
-            </div>
+        </section>
 
-        </div>
-
-
-        <div class="feature-item">
-
-            <div class="feature-icon">
-                <i class="bi bi-star"></i>
-            </div>
-
-            <div>
-                <h3>Customer Reviews</h3>
-                <p>Read reviews before buying.</p>
-            </div>
-
-        </div>
-
-    </section>
+    </div>
 
 </div>
-
-
-
